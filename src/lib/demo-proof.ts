@@ -4,9 +4,8 @@ export const demoContractAddress =
   process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ??
   "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5";
 
-export const demoCircleId = Number(
-  process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID ?? "3",
-);
+/** Active hackathon demo circle — Circle 3 has public metadata on Vercel. */
+export const demoCircleId = 3;
 
 export const demoWalletAddress = "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603";
 
