@@ -27,8 +27,8 @@ ChamaScore uses Celo stablecoin transactions to score contribution reliability, 
 
 Working Celo Sepolia demo:
 - Contract: 0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5
-- Circle 2 created with USDC
-- 0.5 USDC contribution confirmed
+- Circle 3 created with public /agent.json metadata
+- USDC contribution demo on Celo Sepolia
 
 Demo: https://chamascore-agent.vercel.app
 

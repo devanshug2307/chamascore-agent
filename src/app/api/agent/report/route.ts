@@ -1,17 +1,10 @@
 import { NextResponse } from "next/server";
 import { runChamaScoreAgent, sampleCircle, type CircleConfig } from "@/lib/chamascore";
+import { demoCircleId, demoContractAddress, getDemoProofLinks } from "@/lib/demo-proof";
 
-const contractAddress = "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5";
-const circleId = 2;
-const proofLinks = {
-  contract: `https://celo-sepolia.blockscout.com/address/${contractAddress}`,
-  circleCreated:
-    "https://celo-sepolia.blockscout.com/tx/0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276",
-  approval:
-    "https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067",
-  contribution:
-    "https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258",
-};
+const contractAddress = demoContractAddress;
+const circleId = demoCircleId;
+const proofLinks = getDemoProofLinks();
 
 function buildAgentPayload(config: CircleConfig, source: string) {
   const report = runChamaScoreAgent(config);

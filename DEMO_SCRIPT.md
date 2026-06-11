@@ -22,14 +22,12 @@ Show the Agent Findings, Next Agent Actions, and MiniPay transaction path panels
 
 Show MetaMask activity or Blockscout links.
 
-"The demo is live on Celo Sepolia. Circle 2 was created with USDC, the wallet approved 0.5 USDC, and the contribution was confirmed onchain."
+"The demo is live on Celo Sepolia. Circle 3 was created with public agent metadata at chamascore-agent.vercel.app/agent.json. The wallet approves and contributes 0.5 USDC, and the agent can record a late-payer risk flag onchain."
 
 Proof to show:
 
 - Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Circle creation tx: `0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276`
-- Approval tx: `0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
-- Contribution tx: `0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
+- Circle 3 creation tx: `0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
 
 ## 1:20-1:45 - Show Agent Metadata/API
 

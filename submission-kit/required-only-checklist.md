@@ -6,31 +6,29 @@ Deadline: **June 15, 2026 at 09:00 GMT** / **June 15, 2026 at 14:30 IST**.
 
 Required hackathon social field: public X/Twitter post URL from `x.com` or `twitter.com`.
 
-## Already Done Locally
+## Already Done
 
-- App exists locally at `http://localhost:3000` and publicly at `https://chamascore-agent.vercel.app`.
-- Agent metadata exists at `/agent.json`.
-- Agent report API exists at `/api/agent/report`.
-- Celo Sepolia contract is deployed: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`.
-- Demo circle exists: Circle `2`.
-- Confirmed onchain proof exists: circle creation, USDC approval, and USDC contribution.
-- Agent action/proof endpoints exist: `/api/agent/actions` and `/api/agent/onchain-proof`.
-- Submission copy exists in `SUBMISSION.md`.
-- Judge proof exists in `JUDGE_PACKET.md`.
-- X/Twitter post draft exists in `SOCIAL_POST.md`.
+- App is public at `https://chamascore-agent.vercel.app`.
+- Agent metadata at `/agent.json`.
+- Agent report API at `/api/agent/report`.
+- Celo Sepolia contract deployed: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`.
+- Active demo circle: **Circle `3`** with public metadata URI `https://chamascore-agent.vercel.app/agent.json`.
+- Circle 3 creation tx: `0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`.
+- Public GitHub repo: `https://github.com/devanshug2307/chamascore-agent`.
+- Agent action/proof endpoints: `/api/agent/actions`, `/api/agent/onchain-proof`.
+- Submission copy in `SUBMISSION.md`, judge proof in `JUDGE_PACKET.md`, X draft in `SOCIAL_POST.md`.
 
-## Must Be Done With Your Accounts
+## Still Needs Your Account (cannot be automated)
 
-1. Push this project to a public GitHub repo.
-2. Deploy the app to a public URL. Done: `https://chamascore-agent.vercel.app`.
-3. Set `NEXT_PUBLIC_AGENT_METADATA_URL` to the public `/agent.json` URL.
-4. Create a fresh Celo Sepolia circle with the public metadata URL.
-5. Record one risk-flag transaction if gas is available.
-6. Record and upload a short demo video.
-7. Publish the X/Twitter post and copy the post URL.
-8. Join the Telegram group: `https://t.me/realworldagentshackathon`
-9. Sign in to Celo Builders and save the submission draft.
-10. Review the draft once, then publish.
+1. Run Circle 3 onchain demo txs if not done yet:
+   - Add `CHAMASCORE_PRIVATE_KEY` to `.env.local`
+   - Run `npm run complete:circle3`
+   - Or use the live app buttons: Prepare contribution → Record risk flag
+2. Set the same `NEXT_PUBLIC_*` env vars on Vercel and redeploy.
+3. Record and upload a short demo video (`DEMO_SCRIPT.md`).
+4. Publish the X/Twitter post (`SOCIAL_POST.md`) and copy the post URL.
+5. Join Telegram: `https://t.me/realworldagentshackathon`
+6. Submit on Celo Builders with track `best-agent` only.
 
 ## Use These Tracks
 
@@ -47,5 +45,5 @@ npm run lint
 npm run typecheck
 npm run build
 npm run verify:demo
-npm run verify:judge
+CHAMASCORE_BASE_URL=https://chamascore-agent.vercel.app npm run verify:judge
 ```

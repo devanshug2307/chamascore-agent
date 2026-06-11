@@ -68,14 +68,12 @@ TODO_PUBLIC_X_POST_URL
 
 ChamaScore Agent turns savings-circle payment history into portable trust on Celo. It helps chamas, stokvels, susus, committees, and family savings groups track stablecoin contributions, identify late or risky members, prepare payout decisions, and produce reputation evidence.
 
-The demo is live on Celo Sepolia: Circle `2` was created with Celo Sepolia USDC, the wallet approved `0.5 USDC`, and a contribution was confirmed onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes `/agent.json` metadata, provides `/api/agent/report`, returns encoded wallet actions from `/api/agent/actions`, and verifies live Celo state from `/api/agent/onchain-proof`.
+The demo is live on Celo Sepolia: Circle `3` was created with public agent metadata at `https://chamascore-agent.vercel.app/agent.json`, uses Celo Sepolia USDC, and records contribution and risk-flag evidence onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes `/agent.json` metadata, provides `/api/agent/report`, returns encoded transactions from `/api/agent/actions`, and verifies live Celo state from `/api/agent/onchain-proof`.
 
 ## Onchain Proof
 
 - Contract: `https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Circle creation: `https://celo-sepolia.blockscout.com/tx/0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276`
-- USDC approval: `https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
-- USDC contribution: `https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
+- Circle 3 creation: `https://celo-sepolia.blockscout.com/tx/0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
 
 ## Agent Contribution Notes
 

@@ -13,13 +13,13 @@ Savings circles already exist across chamas, stokvels, susus, committees, and fa
 ## Working Demo State
 
 - App: `https://chamascore-agent.vercel.app`
-- Agent metadata: `/agent.json`
+- Agent metadata: `/agent.json` (public URL: `https://chamascore-agent.vercel.app/agent.json`)
 - Agent report API: `/api/agent/report`
 - Encoded actions API: `/api/agent/actions`
 - Live onchain proof API: `/api/agent/onchain-proof`
 - Network: Celo Sepolia
 - Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Active circle: `2`
+- Active circle: `3`
 - Token: USDC, `0x01C5C0122039549AD1493B8220cABEdD739BC44E`
 - Contribution: `0.5 USDC`
 
@@ -28,16 +28,11 @@ Savings circles already exist across chamas, stokvels, susus, committees, and fa
 Use Celo Sepolia Blockscout:
 
 - Contract address: `https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Circle 2 creation: `https://celo-sepolia.blockscout.com/tx/0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276`
-- USDC approval: `https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
-- USDC contribution: `https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
+- Circle 3 creation: `https://celo-sepolia.blockscout.com/tx/0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
+- Legacy Circle 2 approval: `https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
+- Legacy Circle 2 contribution: `https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
 
-Verified state:
-
-```text
-hasContributed(2, 0, 0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603) = true
-roundTotal(2, 0) = 0.5 USDC
-```
+After Circle 3 txs complete, add approval, contribution, and risk-flag links from `npm run complete:circle3` or the live app.
 
 ## Hackathon Criteria Mapping
 
@@ -49,9 +44,8 @@ Ecosystem alignment:
 
 Onchain activity:
 
-- Circle creation transaction confirmed.
-- USDC approval transaction confirmed.
-- Contribution transaction confirmed.
+- Circle 3 creation transaction confirmed with public metadata URI.
+- USDC approval, contribution, and risk-flag txs on Circle 3 complete the judge packet.
 - Contract supports contribution, payout, and risk-flag events.
 - App exposes encoded `recordRiskFlag` actions for late-payer reputation evidence.
 
@@ -74,18 +68,16 @@ Verification:
 
 These require the builder's external accounts:
 
-- Public app URL is live: `https://chamascore-agent.vercel.app`
-- Fresh circle with public `/agent.json` metadata URI still needed after deployment.
-- Public GitHub repo is live: `https://github.com/devanshug2307/chamascore-agent`
-- Demo video still needed.
-- X/Twitter registration post still needed.
-- Optional risk-flag transaction should be recorded if gas is available.
-- ERC-8004/8004scan link still needed, or this should be omitted from the selected tracks.
-- Self Agent ID or unsupported-region screenshot still needed.
+- Circle 3 contribution and risk-flag txs if not yet recorded.
+- Vercel env vars for Circle 3 proof tx hashes.
+- Demo video.
+- X/Twitter registration post.
+- ERC-8004/8004scan link optional.
+- Self Agent ID or unsupported-region screenshot optional.
 
 Local verification:
 
 ```bash
 npm run verify:demo
-npm run verify:judge
+CHAMASCORE_BASE_URL=https://chamascore-agent.vercel.app npm run verify:judge
 ```

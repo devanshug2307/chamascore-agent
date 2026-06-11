@@ -1,22 +1,21 @@
 import { NextResponse } from "next/server";
 import { createPublicClient, erc20Abi, formatUnits, getAddress, http, parseAbi } from "viem";
 import { celoSepolia } from "viem/chains";
+import {
+  demoAgentMetadataUrl,
+  demoCircleId,
+  demoContractAddress,
+  demoUsdcAddress,
+  demoWalletAddress,
+  getDemoProofLinks,
+} from "@/lib/demo-proof";
 
 export const dynamic = "force-dynamic";
 
-const CONTRACT = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ||
-    "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-);
-const CIRCLE_ID = BigInt(process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID || "2");
-const USDC = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_USDC ||
-    "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
-);
-const DEMO_WALLET = getAddress(
-  process.env.CHAMASCORE_DEMO_WALLET ||
-    "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
-);
+const CONTRACT = getAddress(demoContractAddress);
+const CIRCLE_ID = BigInt(demoCircleId);
+const USDC = getAddress(demoUsdcAddress);
+const DEMO_WALLET = getAddress(demoWalletAddress);
 
 const circleAbi = parseAbi([
   "function getCircle(uint256 circleId) view returns (address organizer, address token, uint256 contributionAmount, uint256 currentRound, bool active, string metadataURI)",
@@ -25,16 +24,7 @@ const circleAbi = parseAbi([
   "function roundTotal(uint256 circleId, uint256 round) view returns (uint256)",
 ]);
 
-const proofLinks = {
-  contract:
-    "https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-  circleCreated:
-    "https://celo-sepolia.blockscout.com/tx/0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276",
-  approval:
-    "https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067",
-  contribution:
-    "https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258",
-};
+const proofLinks = getDemoProofLinks();
 
 const client = createPublicClient({
   chain: celoSepolia,
@@ -102,8 +92,9 @@ export async function GET() {
         demoWalletUsdcBalance: `${formatUnits(demoWalletUsdcBalance, 6)} USDC`,
         links: proofLinks,
       },
-      submissionNote:
-        "For the final public demo, create a fresh circle after deployment so metadataURI points to the public /agent.json URL instead of localhost.",
+      submissionNote: metadataURI.includes("localhost")
+        ? `Active circle metadata still points to localhost. Expected ${demoAgentMetadataUrl}.`
+        : "Circle metadata URI is public and ready for judges.",
     });
   } catch (error) {
     return NextResponse.json(

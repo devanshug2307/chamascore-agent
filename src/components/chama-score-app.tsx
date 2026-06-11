@@ -34,6 +34,7 @@ import {
   type CircleConfig,
   type Member,
 } from "@/lib/chamascore";
+import { demoCircleId, getDemoProofUiItems } from "@/lib/demo-proof";
 
 type EthereumProvider = {
   isMiniPay?: boolean;
@@ -49,29 +50,8 @@ declare global {
 const contractAddress = process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT as
   | Address
   | undefined;
-const defaultCircleId = BigInt(process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID ?? "0");
-const demoProofLinks = [
-  {
-    label: "Contract",
-    value: "0xAE84...93E5",
-    href: "https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-  },
-  {
-    label: "Circle 2",
-    value: "Created",
-    href: "https://celo-sepolia.blockscout.com/tx/0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276",
-  },
-  {
-    label: "USDC approval",
-    value: "0.5 USDC",
-    href: "https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067",
-  },
-  {
-    label: "Contribution",
-    value: "Confirmed",
-    href: "https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258",
-  },
-] as const;
+const defaultCircleId = BigInt(process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID ?? String(demoCircleId));
+const demoProofLinks = getDemoProofUiItems();
 
 const severityClass = {
   low: "bg-trust-soft text-trust",

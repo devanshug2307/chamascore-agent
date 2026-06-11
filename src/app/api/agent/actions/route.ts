@@ -9,11 +9,13 @@ import {
   supportedChains,
 } from "@/lib/celo";
 
-const contractAddress = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ||
-    "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-);
-const circleId = BigInt(process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID || "2");
+import {
+  demoCircleId,
+  demoContractAddress,
+} from "@/lib/demo-proof";
+
+const contractAddress = getAddress(demoContractAddress);
+const circleId = BigInt(demoCircleId);
 const demoOrganizer = getAddress("0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603");
 const riskTarget = getAddress("0x19A12f8b9e8eF0A1443B86F842cC3901d9C09a91");
 
@@ -45,7 +47,7 @@ export async function GET() {
       },
       {
         id: "contribute",
-        label: "Contribute to Circle 2",
+        label: `Contribute to Circle ${demoCircleId}`,
         transaction: {
           to: contractAddress,
           data: encodeContribution(circleId),

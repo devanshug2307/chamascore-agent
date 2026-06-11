@@ -17,13 +17,12 @@ The project pivots away from being another chama/stokvel custody app. It is the 
 ## Current Celo Sepolia Demo
 
 - Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Active circle ID: `2`
+- Active circle ID: `3`
+- Public metadata URI: `https://chamascore-agent.vercel.app/agent.json`
 - Token: USDC, `0x01C5C0122039549AD1493B8220cABEdD739BC44E`
 - Contribution amount: `0.5 USDC`
-- Circle creation tx: `0xb662ae355bb0d7f23da82b8014adcb90726ea9803c58603d77af0c4aa9c72276`
-- USDC approval tx: `0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
-- Contribution tx: `0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
-- Verified state: `hasContributed(2, 0, 0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603) = true`
+- Circle 3 creation tx: `0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
+- Legacy Circle 2 proof (historical): approval and contribution txs still valid evidence of earlier demo work
 
 ## What Is Built
 
@@ -60,7 +59,13 @@ The ABI and bytecode are written to `artifacts/`.
 npm run verify:demo
 ```
 
-The verification script reads Celo Sepolia and checks that Circle `2` is active, uses the Celo Sepolia USDC token, and has a confirmed `0.5 USDC` contribution from the demo wallet.
+The verification script reads Celo Sepolia and checks that Circle `3` is active, uses the Celo Sepolia USDC token, exposes a public metadata URI, and has a confirmed `0.5 USDC` contribution from the demo wallet when the Circle 3 txs are complete.
+
+Complete Circle 3 txs:
+
+```bash
+npm run complete:circle3
+```
 
 For the final judge packet, run the app locally or against a public URL:
 
@@ -77,9 +82,10 @@ Set these after deploying the contract:
 
 ```bash
 NEXT_PUBLIC_CHAMASCORE_CONTRACT=0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5
-NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID=2
+NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID=3
 NEXT_PUBLIC_CHAMASCORE_USDC=0x01C5C0122039549AD1493B8220cABEdD739BC44E
 NEXT_PUBLIC_AGENT_METADATA_URL=https://chamascore-agent.vercel.app/agent.json
+NEXT_PUBLIC_PROOF_CIRCLE_CREATED_TX=0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1
 ```
 
 The app then prepares two transactions for MiniPay/Celo wallets:
