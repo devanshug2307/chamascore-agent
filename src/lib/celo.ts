@@ -128,6 +128,31 @@ export function encodeContribution(circleId: bigint) {
   });
 }
 
+export function encodeRiskFlag(
+  circleId: bigint,
+  member: Address,
+  reason: string,
+  severity: 1 | 2 | 3,
+) {
+  return encodeFunctionData({
+    abi: chamaScoreContractAbi,
+    functionName: "recordRiskFlag",
+    args: [circleId, member, reason, severity],
+  });
+}
+
+export function getAgentMetadataUrl() {
+  if (process.env.NEXT_PUBLIC_AGENT_METADATA_URL) {
+    return process.env.NEXT_PUBLIC_AGENT_METADATA_URL;
+  }
+
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}/agent.json`;
+  }
+
+  return "http://localhost:3000/agent.json";
+}
+
 export function encodeCreateUsdcCircle(chainId: number, organizer: Address) {
   return encodeFunctionData({
     abi: chamaScoreContractAbi,
@@ -139,7 +164,7 @@ export function encodeCreateUsdcCircle(chainId: number, organizer: Address) {
         organizer.toLowerCase() as Address,
         "0x19a12f8b9e8ef0a1443b86f842cc3901d9c09a91" as Address,
       ],
-      "http://localhost:3000/agent.json",
+      getAgentMetadataUrl(),
     ],
   });
 }

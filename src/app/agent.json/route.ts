@@ -14,11 +14,16 @@ export async function GET() {
       "member reliability scoring",
       "late-payer detection",
       "payout readiness reports",
+      "onchain risk flag recording",
+      "encoded transaction action planning",
+      "live Celo Sepolia proof reads",
       "ERC-8004 feedback preparation",
       "MiniPay-compatible payment actions",
     ],
     endpoints: {
       report: "/api/agent/report",
+      onchainProof: "/api/agent/onchain-proof",
+      actions: "/api/agent/actions",
     },
     deployment: {
       network: "celo-sepolia",

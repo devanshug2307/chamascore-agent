@@ -15,6 +15,8 @@ Savings circles already exist across chamas, stokvels, susus, committees, and fa
 - App: `http://localhost:3000` locally, public URL still required before submission.
 - Agent metadata: `/agent.json`
 - Agent report API: `/api/agent/report`
+- Encoded actions API: `/api/agent/actions`
+- Live onchain proof API: `/api/agent/onchain-proof`
 - Network: Celo Sepolia
 - Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
 - Active circle: `2`
@@ -50,7 +52,8 @@ Onchain activity:
 - Circle creation transaction confirmed.
 - USDC approval transaction confirmed.
 - Contribution transaction confirmed.
-- Contract supports future contribution, payout, and risk-flag events.
+- Contract supports contribution, payout, and risk-flag events.
+- App exposes encoded `recordRiskFlag` actions for late-payer reputation evidence.
 
 Real-world utility:
 
@@ -72,9 +75,11 @@ Verification:
 These require the builder's external accounts:
 
 - Public app URL still needed.
-- Public GitHub repo still needed.
+- Fresh circle with public `/agent.json` metadata URI still needed after deployment.
+- Public GitHub repo is live: `https://github.com/devanshug2307/chamascore-agent`
 - Demo video still needed.
 - X/Twitter registration post still needed.
+- Optional risk-flag transaction should be recorded if gas is available.
 - ERC-8004/8004scan link still needed, or this should be omitted from the selected tracks.
 - Self Agent ID or unsupported-region screenshot still needed.
 
@@ -82,4 +87,5 @@ Local verification:
 
 ```bash
 npm run verify:demo
+npm run verify:judge
 ```

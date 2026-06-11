@@ -14,9 +14,9 @@ Show `http://localhost:3000`.
 
 ## 0:35-0:55 - Show Agent Findings
 
-Show the Agent Findings and Next Agent Actions panels.
+Show the Agent Findings, Next Agent Actions, and MiniPay transaction path panels.
 
-"Here, the agent detects late contribution risk, recommends reminders, and holds payout until the round is funded. These findings can become ERC-8004 reputation evidence so reliability travels beyond one group."
+"Here, the agent detects late contribution risk, recommends reminders, holds payout until the round is funded, and prepares a risk-flag transaction. These findings can become ERC-8004 reputation evidence so reliability travels beyond one group."
 
 ## 0:55-1:20 - Show Onchain Proof
 
@@ -33,9 +33,9 @@ Proof to show:
 
 ## 1:20-1:45 - Show Agent Metadata/API
 
-Open `/agent.json`, then `/api/agent/report`.
+Open `/agent.json`, `/api/agent/report`, `/api/agent/actions`, then `/api/agent/onchain-proof`.
 
-"ChamaScore exposes inspectable agent metadata and a report API. Judges can inspect what the agent is, what it does, and what actions it recommends."
+"ChamaScore exposes inspectable agent metadata, a report API, an encoded action API, and a live onchain proof API. Judges can inspect what the agent is, what it decides, what transactions it recommends, and what is already confirmed on Celo Sepolia."
 
 ## 1:45-2:10 - Explain Why Celo
 
@@ -43,7 +43,7 @@ Open `/agent.json`, then `/api/agent/report`.
 
 ## 2:10-2:30 - Close
 
-"The next step is ERC-8004/8004scan registration and Self Agent ID verification. The core payment path is already working: the agent observes, scores, flags, and connects real savings-circle activity to portable trust."
+"The next step is ERC-8004/8004scan registration and Self Agent ID verification. The core payment path is already working: the agent observes, scores, flags, prepares transactions, and connects real savings-circle activity to portable trust."
 
 ## Recording Rules
 

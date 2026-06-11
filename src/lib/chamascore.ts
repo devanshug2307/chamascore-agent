@@ -4,6 +4,7 @@ export type Member = {
   id: string;
   name: string;
   wallet: string;
+  proof: "onchain-member" | "self-verified" | "self-pending" | "unsupported";
   paidRounds: number;
   lateRounds: number;
   missedRounds: number;
@@ -41,6 +42,8 @@ export type AgentReport = {
   collectedThisRound: number;
   expectedThisRound: number;
   readyForPayout: boolean;
+  verifiedMembers: number;
+  selfVerifiedMembers: number;
   memberScores: MemberScore[];
   findings: AgentFinding[];
   nextActions: AgentAction[];
@@ -88,6 +91,12 @@ export function runChamaScoreAgent(config: CircleConfig): AgentReport {
     .length;
   const lateMembers = config.members.filter((member) => member.status === "late");
   const riskMembers = memberScores.filter((member) => member.score < 52);
+  const verifiedMembers = config.members.filter(
+    (member) => member.proof === "onchain-member" || member.proof === "self-verified",
+  ).length;
+  const selfVerifiedMembers = config.members.filter(
+    (member) => member.proof === "self-verified",
+  ).length;
   const collectedThisRound = paidCount * config.contribution;
   const expectedThisRound = config.members.length * config.contribution;
   const readyForPayout =
@@ -112,8 +121,17 @@ export function runChamaScoreAgent(config: CircleConfig): AgentReport {
         riskMembers.length === 1 ? "" : "s"
       } need trust review`,
       detail:
-        "The agent should publish ERC-8004 feedback after this round so future groups can inspect reliability.",
+        "The agent should record a risk flag and publish ERC-8004 feedback after this round so future groups can inspect reliability.",
       severity: "high",
+    });
+  }
+
+  if (selfVerifiedMembers === 0) {
+    findings.push({
+      title: "Self verification pending",
+      detail:
+        "Members are onchain-confirmed for the demo circle; Self Agent ID or unsupported-region proof should be added before final submission.",
+      severity: "medium",
     });
   }
 
@@ -154,7 +172,7 @@ export function runChamaScoreAgent(config: CircleConfig): AgentReport {
   nextActions.push({
     label: "Publish reputation",
     detail:
-      "Record contribution status as agent feedback and link the report from the ERC-8004 profile.",
+      "Record the late-payment risk flag onchain, then link the report from the ERC-8004 profile.",
     type: "feedback",
   });
 
@@ -170,6 +188,8 @@ export function runChamaScoreAgent(config: CircleConfig): AgentReport {
     collectedThisRound,
     expectedThisRound,
     readyForPayout,
+    verifiedMembers,
+    selfVerifiedMembers,
     memberScores,
     findings,
     nextActions,
@@ -177,47 +197,31 @@ export function runChamaScoreAgent(config: CircleConfig): AgentReport {
 }
 
 export const sampleCircle: CircleConfig = {
-  name: "Nairobi Launch Chama",
+  name: "Celo Sepolia Launch Chama",
   contribution: 0.5,
   tokenSymbol: "USDC",
-  round: 3,
-  payoutRecipient: "Amina",
+  round: 1,
+  payoutRecipient: "Devanshu",
   members: [
+    {
+      id: "devanshu",
+      name: "Devanshu",
+      wallet: "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+      proof: "onchain-member",
+      paidRounds: 3,
+      lateRounds: 0,
+      missedRounds: 0,
+      status: "paid",
+    },
     {
       id: "amina",
       name: "Amina",
       wallet: "0x19A12f8b9e8eF0A1443B86F842cC3901d9C09a91",
-      paidRounds: 3,
-      lateRounds: 0,
-      missedRounds: 0,
-      status: "paid",
-    },
-    {
-      id: "brian",
-      name: "Brian",
-      wallet: "0x2d21Ac9D9716F7c6E0216F512c5f77F92D477E88",
+      proof: "onchain-member",
       paidRounds: 2,
       lateRounds: 1,
       missedRounds: 0,
       status: "late",
-    },
-    {
-      id: "carol",
-      name: "Carol",
-      wallet: "0x5f33bE243a18a4Fb8F293Cc3F56CdcaCE6718F17",
-      paidRounds: 3,
-      lateRounds: 0,
-      missedRounds: 0,
-      status: "paid",
-    },
-    {
-      id: "dev",
-      name: "Dev",
-      wallet: "0x7E44aBDb19211DbbF57bFCda1b04025D111DcA6A",
-      paidRounds: 1,
-      lateRounds: 1,
-      missedRounds: 1,
-      status: "pending",
     },
   ],
 };

@@ -88,7 +88,7 @@ The demo is live on Celo Sepolia: a ChamaScore circle was created with USDC, the
 
 Savings circles are already a real-world payment system. Millions of people coordinate pooled savings through WhatsApp, family groups, committees, chamas, stokvels, and susus. The hard problem is not only moving money; it is knowing who paid, who is late, whether the payout should proceed, and whether a member's reliability can travel with them to their next group.
 
-ChamaScore Agent solves that trust layer on Celo. It combines a Celo stablecoin contribution contract with an agent that interprets member behavior and turns each round into a readable trust signal. The agent watches contribution status, calculates reliability scores, flags late or risky members, prepares next actions, and exposes metadata/report endpoints that make the agent inspectable by judges, wallets, and future ERC-8004 reputation tooling.
+ChamaScore Agent solves that trust layer on Celo. It combines a Celo stablecoin contribution contract with an agent that interprets member behavior and turns each round into a readable trust signal. The agent watches contribution status, calculates reliability scores, flags late or risky members, prepares next actions, exposes metadata/report/action/proof endpoints, and can record risk flags onchain as future ERC-8004 reputation evidence.
 
 For the hackathon demo, ChamaScore is deployed on Celo Sepolia using USDC. Circle `2` accepts `0.5 USDC` contributions. The demo wallet has already approved and contributed through MetaMask on Celo Sepolia, creating real onchain activity instead of a mocked payment flow.
 
@@ -103,6 +103,8 @@ For the hackathon demo, ChamaScore is deployed on Celo Sepolia using USDC. Circl
 - USDC approval tx: `0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
 - Contribution tx: `0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
 - Verified state: `hasContributed(2, 0, user) = true`, `roundTotal(2, 0) = 0.5 USDC`
+- Agent endpoints: `/agent.json`, `/api/agent/report`, `/api/agent/actions`, `/api/agent/onchain-proof`
+- Final demo note: after public deployment, create a fresh circle with a public `metadataURI` using `NEXT_PUBLIC_AGENT_METADATA_URL`.
 
 ## Why It Fits The Judging Criteria
 
@@ -112,7 +114,7 @@ ChamaScore is built around Celo's core strength: low-cost, stablecoin-based real
 
 Onchain activity:
 
-The demo creates real Celo Sepolia transactions: circle creation, USDC approval, contribution, and future risk/payout events. The project can naturally generate repeated activity because every savings round produces contribution and payout events.
+The demo creates real Celo Sepolia transactions: circle creation, USDC approval, contribution, and risk/payout action plans. The contract supports risk-flag events, and the app now exposes a `recordRiskFlag` wallet action for late-payer evidence.
 
 Real-world utility:
 
@@ -131,6 +133,8 @@ Codex helped research the hackathon, compare project directions, identify the di
 - [ ] Public GitHub repo exists.
 - [ ] `README.md` shows setup, contract address, and transaction proof.
 - [ ] Demo URL is public.
+- [ ] Fresh public-metadata circle is created after deploy.
+- [ ] Risk flag transaction is recorded if CELO gas is available.
 - [ ] X/Twitter registration post is public and linked.
 - [ ] Telegram group joined: `https://t.me/realworldagentshackathon`
 - [ ] Submission is reviewed once before publishing.

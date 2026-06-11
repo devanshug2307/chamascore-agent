@@ -68,7 +68,7 @@ TODO_PUBLIC_X_POST_URL
 
 ChamaScore Agent turns savings-circle payment history into portable trust on Celo. It helps chamas, stokvels, susus, committees, and family savings groups track stablecoin contributions, identify late or risky members, prepare payout decisions, and produce reputation evidence.
 
-The demo is live on Celo Sepolia: Circle `2` was created with Celo Sepolia USDC, the wallet approved `0.5 USDC`, and a contribution was confirmed onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes `/agent.json` metadata, and provides `/api/agent/report` for the latest trust report.
+The demo is live on Celo Sepolia: Circle `2` was created with Celo Sepolia USDC, the wallet approved `0.5 USDC`, and a contribution was confirmed onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes `/agent.json` metadata, provides `/api/agent/report`, returns encoded wallet actions from `/api/agent/actions`, and verifies live Celo state from `/api/agent/onchain-proof`.
 
 ## Onchain Proof
 

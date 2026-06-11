@@ -32,6 +32,8 @@ The project pivots away from being another chama/stokvel custody app. It is the 
 - MiniPay/Celo wallet detection and stablecoin transaction preparation
 - Agent metadata endpoint at `/agent.json`
 - Report API at `/api/agent/report`
+- Encoded action API at `/api/agent/actions`
+- Live Celo Sepolia proof API at `/api/agent/onchain-proof`
 - Solidity contract for contributions, payouts, and risk-flag events
 - Contract compiler script using `solc`
 
@@ -60,6 +62,15 @@ npm run verify:demo
 
 The verification script reads Celo Sepolia and checks that Circle `2` is active, uses the Celo Sepolia USDC token, and has a confirmed `0.5 USDC` contribution from the demo wallet.
 
+For the final judge packet, run the app locally or against a public URL:
+
+```bash
+npm run verify:judge
+CHAMASCORE_BASE_URL=https://YOUR_PUBLIC_DEMO_URL npm run verify:judge
+```
+
+`verify:judge` checks `/agent.json`, `/api/agent/report`, `/api/agent/actions`, and `/api/agent/onchain-proof`. It intentionally fails if the active circle metadata still points to `localhost`; after deploying the app, create a fresh circle with `NEXT_PUBLIC_AGENT_METADATA_URL` set to the public `/agent.json` URL.
+
 ## Deployment Notes
 
 Set these after deploying the contract:
@@ -68,12 +79,14 @@ Set these after deploying the contract:
 NEXT_PUBLIC_CHAMASCORE_CONTRACT=0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5
 NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID=2
 NEXT_PUBLIC_CHAMASCORE_USDC=0x01C5C0122039549AD1493B8220cABEdD739BC44E
+NEXT_PUBLIC_AGENT_METADATA_URL=https://YOUR_PUBLIC_DEMO_URL/agent.json
 ```
 
 The app then prepares two transactions for MiniPay/Celo wallets:
 
 1. ERC-20 `approve(contract, contributionAmount)`
 2. `ChamaScoreCircle.contribute(circleId)`
+3. `ChamaScoreCircle.recordRiskFlag(circleId, member, reason, severity)`
 
 If the Circle Faucet is rate-limited, use the existing Celo Sepolia USDC demo state above instead of creating more circles.
 

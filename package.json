@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "verify:demo": "node scripts/verify-demo-state.mjs",
+    "verify:judge": "node scripts/verify-judge-packet.mjs",
     "compile:contracts": "npx --yes solc@0.8.35 --bin --abi contracts/ChamaScoreCircle.sol -o artifacts"
   },
   "dependencies": {

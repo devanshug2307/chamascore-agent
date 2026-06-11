@@ -14,6 +14,7 @@ Required hackathon social field: public X/Twitter post URL from `x.com` or `twit
 - Celo Sepolia contract is deployed: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`.
 - Demo circle exists: Circle `2`.
 - Confirmed onchain proof exists: circle creation, USDC approval, and USDC contribution.
+- Agent action/proof endpoints exist: `/api/agent/actions` and `/api/agent/onchain-proof`.
 - Submission copy exists in `SUBMISSION.md`.
 - Judge proof exists in `JUDGE_PACKET.md`.
 - X/Twitter post draft exists in `SOCIAL_POST.md`.
@@ -22,11 +23,14 @@ Required hackathon social field: public X/Twitter post URL from `x.com` or `twit
 
 1. Push this project to a public GitHub repo.
 2. Deploy the app to a public URL.
-3. Record and upload a short demo video.
-4. Publish the X/Twitter post and copy the post URL.
-5. Join the Telegram group: `https://t.me/realworldagentshackathon`
-6. Sign in to Celo Builders and save the submission draft.
-7. Review the draft once, then publish.
+3. Set `NEXT_PUBLIC_AGENT_METADATA_URL` to the public `/agent.json` URL.
+4. Create a fresh Celo Sepolia circle with the public metadata URL.
+5. Record one risk-flag transaction if gas is available.
+6. Record and upload a short demo video.
+7. Publish the X/Twitter post and copy the post URL.
+8. Join the Telegram group: `https://t.me/realworldagentshackathon`
+9. Sign in to Celo Builders and save the submission draft.
+10. Review the draft once, then publish.
 
 ## Use These Tracks
 
@@ -43,4 +47,5 @@ npm run lint
 npm run typecheck
 npm run build
 npm run verify:demo
+npm run verify:judge
 ```

@@ -1,7 +1,7 @@
 {
   "projectName": "ChamaScore Agent",
   "tagline": "Portable trust scoring and payment intelligence for MiniPay savings circles.",
-  "description": "ChamaScore Agent turns savings-circle payment history into portable trust on Celo. It helps chamas, stokvels, susus, committees, and family savings groups track stablecoin contributions, identify late or risky members, prepare payout decisions, and produce reputation evidence. The demo is live on Celo Sepolia: Circle 2 was created with Celo Sepolia USDC, the wallet approved 0.5 USDC, and a contribution was confirmed onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes /agent.json metadata, and provides /api/agent/report for the latest trust report.",
+  "description": "ChamaScore Agent turns savings-circle payment history into portable trust on Celo. It helps chamas, stokvels, susus, committees, and family savings groups track stablecoin contributions, identify late or risky members, prepare payout decisions, and produce reputation evidence. The demo is live on Celo Sepolia: Circle 2 was created with Celo Sepolia USDC, the wallet approved 0.5 USDC, and a contribution was confirmed onchain. The agent UI reads the circle configuration, scores member reliability, flags payment risk, exposes /agent.json metadata, serves /api/agent/report, returns encoded transactions from /api/agent/actions, and verifies live Celo state from /api/agent/onchain-proof.",
   "trackIds": ["best-agent"],
   "bountyIds": ["best-agent-1st"],
   "githubUrl": "https://github.com/devanshug2307/chamascore-agent",

@@ -15,10 +15,11 @@ import {
   Wallet,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { Address } from "viem";
+import { isAddress, type Address } from "viem";
 import {
   encodeApprove,
   encodeContribution,
+  encodeRiskFlag,
   isSupportedMiniPayChain,
   normalizeChainId,
   stableTokens,
@@ -100,6 +101,9 @@ export function ChamaScoreApp() {
   const isMiniPay = provider?.isMiniPay === true;
   const supportedChain = isSupportedMiniPayChain(chainId);
   const selectedToken = stableTokens[config.tokenSymbol];
+  const riskFlagTarget = report.memberScores.find(
+    (member) => member.status === "late" || member.reliability === "risk",
+  );
 
   useEffect(() => {
     void connectWallet(true);
@@ -146,6 +150,7 @@ export function ChamaScoreApp() {
           id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
           name,
           wallet,
+          proof: existing?.proof ?? "self-pending",
           paidRounds: existing?.paidRounds ?? 0,
           lateRounds: existing?.lateRounds ?? 0,
           missedRounds: existing?.missedRounds ?? 0,
@@ -258,9 +263,58 @@ export function ChamaScoreApp() {
         (await injected.request({ method: "eth_chainId" })) as string,
       );
       setChainId(nextChainId);
-      setTxStatus("Celo Sepolia selected. Now create the USDC circle.");
+      setTxStatus("Celo Sepolia selected. Now prepare contribution or record a risk flag.");
     } catch (error) {
       setTxStatus(error instanceof Error ? error.message : "Network switch failed.");
+    } finally {
+      setIsSending(false);
+    }
+  }
+
+  async function recordRiskFlag() {
+    if (!provider || !account || !chainId) {
+      setTxStatus("Open in MiniPay or connect a Celo wallet first.");
+      return;
+    }
+
+    if (!supportedChain) {
+      setTxStatus("Switch to Celo Sepolia before recording a risk flag.");
+      return;
+    }
+
+    if (!contractAddress) {
+      setTxStatus("Contract address is not configured.");
+      return;
+    }
+
+    if (!riskFlagTarget || !isAddress(riskFlagTarget.wallet)) {
+      setTxStatus("No valid late or risky member is selected for a risk flag.");
+      return;
+    }
+
+    setIsSending(true);
+    setTxStatus(`Recording risk flag for ${riskFlagTarget.name}...`);
+
+    try {
+      const flagHash = (await provider.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: account,
+            to: contractAddress,
+            data: encodeRiskFlag(
+              defaultCircleId,
+              riskFlagTarget.wallet,
+              `ChamaScore late-payment review: ${riskFlagTarget.name}`,
+              riskFlagTarget.reliability === "risk" ? 3 : 2,
+            ),
+          },
+        ],
+      })) as string;
+
+      setTxStatus(`Risk flag recorded: ${shortAddress(flagHash)}.`);
+    } catch (error) {
+      setTxStatus(error instanceof Error ? error.message : "Risk flag transaction failed.");
     } finally {
       setIsSending(false);
     }
@@ -293,7 +347,7 @@ export function ChamaScoreApp() {
               </div>
             </header>
 
-            <section className="grid gap-3 sm:grid-cols-3">
+            <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <Metric
                 label="Circle score"
                 value={`${report.circleScore}`}
@@ -308,6 +362,11 @@ export function ChamaScoreApp() {
                 label="Payout state"
                 value={report.readyForPayout ? "Ready" : "Hold"}
                 detail={`Round ${config.round} to ${config.payoutRecipient}`}
+              />
+              <Metric
+                label="Member proof"
+                value={`${report.verifiedMembers}/${config.members.length}`}
+                detail={`${report.selfVerifiedMembers} Self verified`}
               />
             </section>
 
@@ -409,12 +468,19 @@ export function ChamaScoreApp() {
                   {report.memberScores.map((member) => (
                     <div
                       key={member.id}
-                      className="grid gap-3 rounded-md border border-border bg-panel p-3 sm:grid-cols-[1fr_auto_auto]"
+                      className="grid gap-3 rounded-md border border-border bg-panel p-3 sm:grid-cols-[1fr_auto_auto_auto]"
                     >
                       <div className="min-w-0">
                         <p className="font-medium">{member.name}</p>
                         <p className="font-mono text-xs text-muted">{shortAddress(member.wallet)}</p>
                       </div>
+                      <span className="inline-flex min-h-10 items-center justify-center rounded-md bg-info-soft px-3 text-xs font-semibold text-info">
+                        {member.proof === "self-verified"
+                          ? "Self"
+                          : member.proof === "onchain-member"
+                            ? "Onchain"
+                            : "Pending"}
+                      </span>
                       <span
                         className={`inline-flex min-h-10 items-center justify-center rounded-md px-3 text-sm font-semibold ${reliabilityClass[member.reliability]}`}
                       >
@@ -434,7 +500,7 @@ export function ChamaScoreApp() {
             </section>
           </div>
 
-          <footer className="mt-8 grid gap-3 border-t border-border pt-5 sm:grid-cols-3">
+          <footer className="mt-8 grid gap-3 border-t border-border pt-5 sm:grid-cols-2 lg:grid-cols-5">
             <a
               className="flex min-h-10 items-center justify-center gap-2 rounded-md border border-border px-3 text-sm font-medium transition hover:bg-panel-muted focus-visible:ring-2 focus-visible:ring-trust"
               href="/agent.json"
@@ -451,6 +517,24 @@ export function ChamaScoreApp() {
               rel="noreferrer"
             >
               Agent report API
+              <ExternalLink size={15} aria-hidden="true" />
+            </a>
+            <a
+              className="flex min-h-10 items-center justify-center gap-2 rounded-md border border-border px-3 text-sm font-medium transition hover:bg-panel-muted focus-visible:ring-2 focus-visible:ring-trust"
+              href="/api/agent/onchain-proof"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Onchain proof API
+              <ExternalLink size={15} aria-hidden="true" />
+            </a>
+            <a
+              className="flex min-h-10 items-center justify-center gap-2 rounded-md border border-border px-3 text-sm font-medium transition hover:bg-panel-muted focus-visible:ring-2 focus-visible:ring-trust"
+              href="/api/agent/actions"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Agent actions
               <ExternalLink size={15} aria-hidden="true" />
             </a>
             <button
@@ -510,6 +594,10 @@ export function ChamaScoreApp() {
                 <InfoRow label="Circle" value={`#${defaultCircleId.toString()}`} />
                 <InfoRow label="Token" value={`${selectedToken.symbol} (${selectedToken.decimals})`} />
                 <InfoRow
+                  label="Risk target"
+                  value={riskFlagTarget ? riskFlagTarget.name : "None"}
+                />
+                <InfoRow
                   label="Contract"
                   value={contractAddress ? shortAddress(contractAddress) : "Not deployed"}
                 />
@@ -545,6 +633,16 @@ export function ChamaScoreApp() {
               >
                 <Check size={16} aria-hidden="true" />
                 {isSending ? "Preparing..." : "Prepare contribution"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void recordRiskFlag()}
+                disabled={isSending || !riskFlagTarget}
+                className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-risk px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:ring-2 focus-visible:ring-risk disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <AlertTriangle size={16} aria-hidden="true" />
+                {isSending ? "Recording..." : "Record risk flag"}
               </button>
             </div>
           </Panel>
