@@ -13,10 +13,16 @@ import {
   stringToHex,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { celoSepolia } from "viem/chains";
+import {
+  BLOCKSCOUT,
+  CHAIN,
+  REPUTATION_REGISTRY,
+  RPC_URL,
+  TX_OPTS,
+  agentId,
+} from "./lib/network.mjs";
 
-const REPUTATION_REGISTRY = "0x8004B663056A597Dffe9eCcC1965A193B7388713";
-const AGENT_ID = BigInt(process.env.NEXT_PUBLIC_ERC8004_AGENT_ID ?? "338");
+const AGENT_ID = agentId();
 const ENDPOINT =
   process.env.NEXT_PUBLIC_AGENT_METADATA_URL?.replace("/agent.json", "") ??
   "https://chamascore-agent.vercel.app";
@@ -35,8 +41,8 @@ async function main() {
   }
 
   const members = JSON.parse(readFileSync(MEMBERS_FILE, "utf8"));
-  const transport = http(process.env.CELO_SEPOLIA_RPC_URL || undefined);
-  const publicClient = createPublicClient({ chain: celoSepolia, transport });
+  const transport = http(RPC_URL);
+  const publicClient = createPublicClient({ chain: CHAIN, transport });
 
   const feedbackPlans = [
     {
@@ -58,7 +64,7 @@ async function main() {
     const account = privateKeyToAccount(member.privateKey);
     const walletClient = createWalletClient({
       account,
-      chain: celoSepolia,
+      chain: CHAIN,
       transport,
     });
     const plan = feedbackPlans[index % feedbackPlans.length];
@@ -80,6 +86,7 @@ async function main() {
         feedbackURI,
         feedbackHash,
       ],
+      ...TX_OPTS,
     });
     await publicClient.waitForTransactionReceipt({ hash });
     console.log(`[feedback] tx: ${hash}`);
@@ -100,7 +107,7 @@ async function main() {
         agentId: Number(AGENT_ID),
         feedback: results,
         registrySummary: { count: Number(count), averageValue: Number(average) },
-        explorer: `https://celo-sepolia.blockscout.com/address/${REPUTATION_REGISTRY}`,
+        explorer: `${BLOCKSCOUT}/address/${REPUTATION_REGISTRY}`,
       },
       null,
       2,

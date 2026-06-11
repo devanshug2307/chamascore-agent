@@ -11,6 +11,7 @@
     "verify:demo": "node scripts/verify-demo-state.mjs",
     "verify:judge": "node scripts/verify-judge-packet.mjs",
     "agent:run": "node scripts/agent-runner.mjs",
+    "deploy:contract": "node scripts/deploy-circle-contract.mjs",
     "demo:setup": "node scripts/setup-demo-circle.mjs",
     "demo:feedback": "node scripts/member-feedback.mjs",
     "complete:circle3": "node scripts/complete-circle3-demo.mjs",

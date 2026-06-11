@@ -11,29 +11,31 @@ import {
   createPublicClient,
   createWalletClient,
   erc20Abi,
-  getAddress,
   http,
   parseAbi,
   parseEther,
   parseUnits,
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
-import { celoSepolia } from "viem/chains";
+import {
+  CHAIN,
+  IS_MAINNET,
+  RPC_URL,
+  TX_OPTS,
+  USDC,
+  contractAddress,
+} from "./lib/network.mjs";
 
-const CONTRACT = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ??
-    "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-);
-const USDC = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_USDC ??
-    "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
-);
+const CONTRACT = contractAddress();
 const METADATA_URI =
   process.env.NEXT_PUBLIC_AGENT_METADATA_URL ??
   "https://chamascore-agent.vercel.app/agent.json";
-const CONTRIBUTION = parseUnits("0.5", 6);
+const CONTRIBUTION = parseUnits(process.env.CONTRIBUTION_USDC ?? "0.5", 6);
 const MEMBER_GAS = parseEther("0.08");
-const MEMBER_USDC = parseUnits("3", 6);
+const MEMBER_USDC = parseUnits(
+  process.env.MEMBER_USDC_AMOUNT ?? (IS_MAINNET ? "2" : "3"),
+  6,
+);
 const MEMBERS_FILE = resolve(process.cwd(), "demo-members.local.json");
 const CONTRIBUTE_ONLY = process.env.CONTRIBUTE_ONLY === "1";
 const SKIP_MEMBERS = new Set(
@@ -87,11 +89,11 @@ async function main() {
   const organizer = privateKeyToAccount(
     privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`,
   );
-  const transport = http(process.env.CELO_SEPOLIA_RPC_URL || undefined);
-  const publicClient = createPublicClient({ chain: celoSepolia, transport });
+  const transport = http(RPC_URL);
+  const publicClient = createPublicClient({ chain: CHAIN, transport });
   const organizerClient = createWalletClient({
     account: organizer,
-    chain: celoSepolia,
+    chain: CHAIN,
     transport,
   });
 
@@ -113,7 +115,8 @@ async function main() {
     return hash;
   };
 
-  // 1. Fund member wallets (gas + USDC) if needed
+  // 1. Fund member wallets if needed.
+  // On mainnet members pay gas in USDC (fee abstraction) — no native CELO needed.
   for (const account of memberAccounts) {
     const [gas, usdc] = await Promise.all([
       publicClient.getBalance({ address: account.address }),
@@ -124,7 +127,7 @@ async function main() {
         args: [account.address],
       }),
     ]);
-    if (gas < parseEther("0.02")) {
+    if (!IS_MAINNET && gas < parseEther("0.02")) {
       await send(`fund gas -> ${account.address}`, () =>
         organizerClient.sendTransaction({
           to: account.address,
@@ -139,6 +142,7 @@ async function main() {
           abi: erc20Abi,
           functionName: "transfer",
           args: [account.address, MEMBER_USDC],
+          ...TX_OPTS,
         }),
       );
     }
@@ -158,6 +162,7 @@ async function main() {
         abi: circleAbi,
         functionName: "createCircle",
         args: [USDC, CONTRIBUTION, allMemberAddresses, METADATA_URI],
+        ...TX_OPTS,
       }),
     );
     circleId = before;
@@ -183,7 +188,7 @@ async function main() {
       account: memberAccounts[index],
       client: createWalletClient({
         account: memberAccounts[index],
-        chain: celoSepolia,
+        chain: CHAIN,
         transport,
       }),
     })),
@@ -204,12 +209,13 @@ async function main() {
       console.log(`[setup] ${contributor.name} already contributed round ${currentRound}`);
       continue;
     }
-    await send(`${contributor.name} approve 0.5 USDC`, () =>
+    await send(`${contributor.name} approve USDC`, () =>
       contributor.client.writeContract({
         address: USDC,
         abi: erc20Abi,
         functionName: "approve",
         args: [CONTRACT, CONTRIBUTION],
+        ...TX_OPTS,
       }),
     );
     await send(`${contributor.name} contribute circle ${circleId}`, () =>
@@ -218,6 +224,7 @@ async function main() {
         abi: circleAbi,
         functionName: "contribute",
         args: [circleId],
+        ...TX_OPTS,
       }),
     );
   }

@@ -7,9 +7,16 @@ import {
   parseAbi,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { celoSepolia } from "viem/chains";
+import {
+  BLOCKSCOUT,
+  CHAIN,
+  IDENTITY_REGISTRY,
+  NETWORK,
+  RPC_URL,
+  TX_OPTS,
+  saveDeployment,
+} from "./lib/network.mjs";
 
-const IDENTITY_REGISTRY = "0x8004A818BFB912233c491871b3d84c89A494BD9e";
 const AGENT_URI =
   process.env.NEXT_PUBLIC_AGENT_METADATA_URL ??
   "https://chamascore-agent.vercel.app/agent.json";
@@ -72,11 +79,11 @@ async function main() {
   const account = privateKeyToAccount(
     privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`,
   );
-  const transport = http(process.env.CELO_SEPOLIA_RPC_URL || undefined);
-  const publicClient = createPublicClient({ chain: celoSepolia, transport });
+  const transport = http(RPC_URL);
+  const publicClient = createPublicClient({ chain: CHAIN, transport });
   const walletClient = createWalletClient({
     account,
-    chain: celoSepolia,
+    chain: CHAIN,
     transport,
   });
 
@@ -86,7 +93,7 @@ async function main() {
   ]);
 
   console.log("Registering ChamaScore on ERC-8004 Identity Registry...");
-  console.log("Network: Celo Sepolia");
+  console.log(`Network: ${NETWORK} (chain ${CHAIN.id})`);
   console.log("Registry:", IDENTITY_REGISTRY);
   console.log("Agent URI:", AGENT_URI);
 
@@ -102,6 +109,7 @@ async function main() {
     abi: registryAbi,
     functionName: "register",
     args: [AGENT_URI],
+    ...TX_OPTS,
   });
 
   const receipt = await publicClient.waitForTransactionReceipt({ hash });
@@ -123,13 +131,14 @@ async function main() {
     ? BigInt(transferLog.topics[3]).toString()
     : balanceAfter.toString();
 
-  const blockscoutTx = `https://celo-sepolia.blockscout.com/tx/${hash}`;
-  const blockscoutRegistry = `https://celo-sepolia.blockscout.com/address/${IDENTITY_REGISTRY}`;
+  const blockscoutTx = `${BLOCKSCOUT}/tx/${hash}`;
+  const blockscoutRegistry = `${BLOCKSCOUT}/address/${IDENTITY_REGISTRY}`;
 
   updateEnvLocal({
     NEXT_PUBLIC_ERC8004_AGENT_ID: agentId,
     NEXT_PUBLIC_ERC8004_REGISTRY_TX: hash,
   });
+  saveDeployment({ agentId: Number(agentId), registrationTx: hash });
 
   console.log(
     JSON.stringify(

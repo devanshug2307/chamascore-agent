@@ -11,27 +11,21 @@ import {
   createPublicClient,
   createWalletClient,
   formatUnits,
-  getAddress,
   http,
   parseAbi,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { celo, celoSepolia } from "viem/chains";
+import {
+  BLOCKSCOUT,
+  CHAIN,
+  NETWORK,
+  RPC_URL,
+  TX_OPTS,
+  contractAddress,
+  loadDeployments,
+} from "./lib/network.mjs";
 
-const NETWORK = process.env.CHAMASCORE_NETWORK === "mainnet" ? "mainnet" : "sepolia";
-const CHAIN = NETWORK === "mainnet" ? celo : celoSepolia;
-const RPC_URL =
-  NETWORK === "mainnet"
-    ? process.env.CELO_RPC_URL
-    : process.env.CELO_SEPOLIA_RPC_URL;
-const CONTRACT = getAddress(
-  process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ??
-    "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
-);
-const BLOCKSCOUT =
-  NETWORK === "mainnet"
-    ? "https://celo.blockscout.com"
-    : "https://celo-sepolia.blockscout.com";
+const CONTRACT = contractAddress();
 
 const circleAbi = parseAbi([
   "function nextCircleId() view returns (uint256)",
@@ -63,7 +57,7 @@ async function main() {
   const account = privateKeyToAccount(
     privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`,
   );
-  const transport = http(RPC_URL || undefined);
+  const transport = http(RPC_URL);
   const publicClient = createPublicClient({ chain: CHAIN, transport });
   const walletClient = createWalletClient({ account, chain: CHAIN, transport });
 
@@ -84,10 +78,11 @@ async function main() {
   console.log(`[runner] scanning ${nextCircleId} circle(s) on ${run.network}`);
 
   // Existing risk flags (dedupe by circle+member+reason)
+  const deployBlock = loadDeployments()[NETWORK]?.deployBlock;
   const riskLogs = await publicClient.getLogs({
     address: CONTRACT,
     event: circleAbi.find((e) => e.type === "event" && e.name === "RiskFlagRecorded"),
-    fromBlock: 0n,
+    fromBlock: deployBlock ? BigInt(deployBlock) : 0n,
     toBlock: "latest",
   });
   const flaggedKeys = new Set(
@@ -138,6 +133,7 @@ async function main() {
         abi: circleAbi,
         functionName: "executePayout",
         args: [id],
+        ...TX_OPTS,
       });
       await publicClient.waitForTransactionReceipt({ hash });
       run.actions.push({
@@ -164,6 +160,7 @@ async function main() {
           abi: circleAbi,
           functionName: "recordRiskFlag",
           args: [id, member, reason, 1],
+          ...TX_OPTS,
         });
         await publicClient.waitForTransactionReceipt({ hash });
         run.actions.push({
