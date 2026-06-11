@@ -41,6 +41,25 @@ type EthereumProvider = {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
 };
 
+type AgentRunAction = {
+  type: "payout" | "risk-flag";
+  circleId: number;
+  round: number;
+  recipient?: string;
+  member?: string;
+  amount?: string;
+  reason?: string;
+  tx: string;
+  explorer: string;
+};
+
+type AgentRun = {
+  startedAt: string;
+  network: string;
+  summary?: string;
+  actions: AgentRunAction[];
+};
+
 declare global {
   interface Window {
     ethereum?: EthereumProvider;
@@ -77,6 +96,7 @@ export function ChamaScoreApp() {
   );
   const [txStatus, setTxStatus] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [agentRuns, setAgentRuns] = useState<AgentRun[]>([]);
 
   const report = useMemo(() => runChamaScoreAgent(config), [config]);
   const isMiniPay = provider?.isMiniPay === true;
@@ -89,6 +109,23 @@ export function ChamaScoreApp() {
   useEffect(() => {
     void connectWallet(true);
   }, []);
+
+  useEffect(() => {
+    fetch("/agent-runs.json")
+      .then((response) => (response.ok ? response.json() : []))
+      .then((runs: AgentRun[]) => setAgentRuns(Array.isArray(runs) ? runs : []))
+      .catch(() => setAgentRuns([]));
+  }, []);
+
+  const agentActions = useMemo(
+    () =>
+      agentRuns
+        .flatMap((run) =>
+          run.actions.map((action) => ({ ...action, startedAt: run.startedAt })),
+        )
+        .slice(0, 5),
+    [agentRuns],
+  );
 
   async function connectWallet(isAutoConnect = false) {
     setWalletError("");
@@ -571,6 +608,57 @@ export function ChamaScoreApp() {
         </div>
 
         <aside className="soft-enter space-y-4 lg:sticky lg:top-8 lg:h-fit">
+          <Panel title="Autonomous agent runs" icon={<RefreshCcw size={20} />}>
+            <div className="space-y-3">
+              {agentActions.length === 0 ? (
+                <p className="text-sm leading-6 text-muted">
+                  No autonomous actions logged yet. The agent scans every circle on a
+                  schedule and acts onchain when a round is funded or a member falls
+                  behind.
+                </p>
+              ) : (
+                agentActions.map((action) => (
+                  <a
+                    key={action.tx}
+                    href={action.explorer}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block rounded-md border border-border bg-panel p-3 transition hover:bg-panel-muted"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-medium">
+                        {action.type === "payout"
+                          ? `Executed payout · ${action.amount} USDC`
+                          : "Recorded risk flag"}
+                      </p>
+                      <span
+                        className={`rounded-full px-2 py-1 text-xs font-semibold ${
+                          action.type === "payout"
+                            ? "bg-trust-soft text-trust"
+                            : "bg-risk-soft text-risk"
+                        }`}
+                      >
+                        circle {action.circleId} · round {action.round}
+                      </span>
+                    </div>
+                    <p className="mt-2 flex items-center gap-1 text-sm leading-6 text-muted">
+                      {action.type === "payout"
+                        ? `Sent to ${shortAddress(action.recipient ?? "")}`
+                        : `${shortAddress(action.member ?? "")} pending while majority paid`}
+                      <ExternalLink size={13} aria-hidden="true" />
+                    </p>
+                  </a>
+                ))
+              )}
+              <p className="text-xs leading-5 text-muted">
+                Every action is a real Celo transaction signed by the agent. Full log:{" "}
+                <a className="underline" href="/agent-runs.json" target="_blank" rel="noreferrer">
+                  /agent-runs.json
+                </a>
+              </p>
+            </div>
+          </Panel>
+
           <Panel title="Agent findings" icon={<AlertTriangle size={20} />}>
             <div className="space-y-3">
               {report.findings.map((finding) => (
