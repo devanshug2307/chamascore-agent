@@ -4,80 +4,80 @@ This is the fast-read proof file for judges.
 
 ## What ChamaScore Does
 
-ChamaScore Agent turns savings-circle contribution behavior into portable trust on Celo. It scores member reliability, flags late or risky payers, prepares payout recommendations, and creates onchain evidence that can feed ERC-8004 reputation.
+ChamaScore Agent is an autonomous trust agent for savings circles on Celo. It watches USDC contributions on its own contract, executes rotating payouts when rounds are funded, records onchain risk flags for late payers, and earns ERC-8004 reputation from independent member wallets — turning savings-group behavior into portable, verifiable trust.
 
 ## Why It Matters
 
-Savings circles already exist across chamas, stokvels, susus, committees, and family groups. The recurring pain is trust: missed contributions, unclear payout readiness, opaque ledgers, and no portable reliability history. ChamaScore makes that behavior auditable and reusable.
+Savings circles already exist across chamas, stokvels, susus, committees, and family groups. The recurring pain is trust: missed contributions, unclear payout readiness, opaque ledgers, and no portable reliability history. ChamaScore makes that behavior auditable, automated, and reusable.
 
 ## Working Demo State
 
 - App: `https://chamascore-agent.vercel.app`
-- Agent metadata: `/agent.json` (public URL: `https://chamascore-agent.vercel.app/agent.json`)
-- Agent report API: `/api/agent/report`
-- Encoded actions API: `/api/agent/actions`
-- Live onchain proof API: `/api/agent/onchain-proof`
+- ERC-8004 agent: #338 — `https://8004scan.io/agents/celo-sepolia/338`
+- A2A agent card: `/.well-known/agent-card.json` (JSON-RPC `message/send` at `/api/a2a`)
+- MCP server: `/.well-known/mcp.json` → `/api/mcp` (tools: `get_circle_report`, `get_onchain_proof`, `get_agent_info`)
+- ERC-8004 registration file: `/agent.json`
+- Public agent-run log: `/agent-runs.json`
+- Legacy REST: `/api/agent/report`, `/api/agent/actions`, `/api/agent/onchain-proof`
 - Network: Celo Sepolia
 - Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Active circle: `3`
-- Token: USDC, `0x01C5C0122039549AD1493B8220cABEdD739BC44E`
-- Contribution: `0.5 USDC`
+- Active circle: `4` (3 members, 0.5 USDC per round, 2 completed rounds)
 
 ## Onchain Receipts
 
-Use Celo Sepolia Blockscout:
+Celo Sepolia Blockscout:
 
-- Contract address: `https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Circle 3 creation: `https://celo-sepolia.blockscout.com/tx/0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
-- Legacy Circle 2 approval: `https://celo-sepolia.blockscout.com/tx/0x4993feda85b6668fcaff9a297d96692a14cbe121f8415905efba401d15ad8067`
-- Legacy Circle 2 contribution: `https://celo-sepolia.blockscout.com/tx/0xbbc9525edb99a84c8aab79bbcb19e637d747df703757913e0f90c937baa2f258`
+- Contract: `https://celo-sepolia.blockscout.com/address/0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
+- ERC-8004 registration: `https://celo-sepolia.blockscout.com/tx/0x66c4fae715acadddcf6b05a82e3bb8e93f7635293b53913102779abd4e61d422`
+- Circle 4 creation: `https://celo-sepolia.blockscout.com/tx/0x2456fb9d981743043892200efdd25e19a9408ff4df3032666943237d88be24ab`
+- USDC approval: `https://celo-sepolia.blockscout.com/tx/0x05bb548239750b97f13c6661f5dd81fa140a3dbfcf568895ac2e9886c4cb9031`
+- Contribution: `https://celo-sepolia.blockscout.com/tx/0x01da3da0640490f6c3ca0073f9b7d10c4d1146e955df27bb02408158d3aca705`
+- **Autonomous payout (round 0)**: `https://celo-sepolia.blockscout.com/tx/0xcd50eb7e89869bfd1204f3d07d1f0cfd096fd9724ad416897be6776356dfc52f`
+- **Autonomous risk flag (round 1)**: `https://celo-sepolia.blockscout.com/tx/0xe29aedb6135c3f89c76e8bb378191abd98eec3f5f8e538a459320e7ae0586775`
+- **Autonomous payout (round 1)**: `https://celo-sepolia.blockscout.com/tx/0x9075de0f2c0d1da02d3d913eb4ad51ed75eaf6d149274b61b6df7d9ac73c99ed`
+- Member reputation (4 ratings, avg 97): Reputation Registry `https://celo-sepolia.blockscout.com/address/0x8004B663056A597Dffe9eCcC1965A193B7388713`
 
-After Circle 3 txs complete, add approval, contribution, and risk-flag links from `npm run complete:circle3` or the live app.
+## Verify Everything In Two Commands
+
+```bash
+CHAMASCORE_BASE_URL=https://chamascore-agent.vercel.app npm run verify:judge   # 14 endpoint checks
+npm run verify:demo                                                            # live onchain state
+```
 
 ## Hackathon Criteria Mapping
 
 Ecosystem alignment:
 
-- Built on Celo.
-- Uses Celo Sepolia and Celo stablecoin rails.
-- Designed for MiniPay-style small payments.
+- Built on Celo stablecoin rails (USDC, Celo Sepolia), designed for MiniPay-style small payments.
+- Targets real-world savings-group payments, not generic AI chat.
 
 Onchain activity:
 
-- Circle 3 creation transaction confirmed with public metadata URI.
-- USDC approval, contribution, and risk-flag txs on Circle 3 complete the judge packet.
-- Contract supports contribution, payout, and risk-flag events.
-- App exposes encoded `recordRiskFlag` actions for late-payer reputation evidence.
+- The agent itself transacts: 2 autonomous payouts + 1 autonomous risk flag, plus circle creation, approvals, contributions, ERC-8004 registration, and 4 independent member-feedback transactions.
+- GitHub Actions cron continues agent passes every 6 hours; every run logged publicly.
 
 Real-world utility:
 
-- Focuses on savings circles, a real recurring payment behavior.
-- Solves trust and payout-readiness problems.
+- Savings circles are a real recurring payment behavior used by millions.
+- Solves trust, payout execution, and portable reliability.
 - Avoids overclaiming regulated lending, yield, remittance, or insurance.
 
 Verification:
 
-- Prepared for ERC-8004 / 8004scan agent registration.
-- Self Agent ID should be completed if region/device support allows.
+- ERC-8004 agent #338 with reputation earned from non-operator wallets (self-rating blocked by the registry).
+- Live A2A + MCP endpoints for agent-to-agent verification.
+- Self Agent ID in progress (or unsupported-region screenshot attached).
 
 ## Strongest Demo Narrative
 
-"ChamaScore is not trying to replace a savings circle. It gives the group an agent that reads payment behavior and makes the trust state clear. The money movement is on Celo; the agent converts the history into a score, a risk report, and eventually portable reputation."
+"ChamaScore is not trying to replace a savings circle. It gives the group an agent that moves the money when the round is ready, flags trouble onchain when it appears, and converts the history into portable reputation. The payments are on Celo; the trust now is too."
 
-## Remaining Submission Risks
+## Remaining Submission Items
 
 These require the builder's external accounts:
 
-- Circle 3 contribution and risk-flag txs if not yet recorded.
-- Vercel env vars for Circle 3 proof tx hashes.
+- Vercel env var `NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID` updated to `4` and redeployed.
+- GitHub repo secret `CHAMASCORE_PRIVATE_KEY` set so the agent cron runs.
 - Demo video.
 - X/Twitter registration post.
-- ERC-8004/8004scan link optional.
-- Self Agent ID or unsupported-region screenshot optional.
-
-Local verification:
-
-```bash
-npm run verify:demo
-CHAMASCORE_BASE_URL=https://chamascore-agent.vercel.app npm run verify:judge
-```
+- Self Agent ID or unsupported-region screenshot (optional).

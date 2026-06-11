@@ -4,49 +4,49 @@ Target length: 2 minutes 30 seconds.
 
 ## 0:00-0:15 - Open With The Problem
 
-"This is ChamaScore Agent, a Celo onchain agent for savings-circle trust. Chamas, stokvels, susus, and family savings groups already move money together, but trust breaks when members pay late, treasurers keep opaque records, or payout readiness is unclear."
+"This is ChamaScore Agent, an autonomous Celo agent for savings-circle trust. Chamas, stokvels, susus, and family savings groups already move money together, but trust breaks when members pay late, treasurers keep opaque records, or payout readiness is unclear."
 
-## 0:15-0:35 - Show The App
+## 0:15-0:40 - Show The App + Autonomous Runs
 
-Show `https://chamascore-agent.vercel.app`.
+Show `https://chamascore-agent.vercel.app`. Point at the **Autonomous agent runs** panel.
 
-"The app shows a live savings circle. The agent scores the group, tracks collected USDC, identifies the payout state, and highlights member reliability. This is not a generic chatbot; it is an agent that turns payment behavior into a decision."
+"The app shows a live savings circle on Celo Sepolia. And this panel is the key: every entry is a real transaction the agent signed and sent on its own. It executed this round's payout the moment the circle was funded, and it recorded an onchain risk flag when a member fell behind. No human clicked anything."
 
-## 0:35-0:55 - Show Agent Findings
+Click one payout card → Blockscout opens with the agent's transaction.
 
-Show the Agent Findings, Next Agent Actions, and MiniPay transaction path panels.
+## 0:40-1:00 - The Lifecycle Story
 
-"Here, the agent detects late contribution risk, recommends reminders, holds payout until the round is funded, and prepares a risk-flag transaction. These findings can become ERC-8004 reputation evidence so reliability travels beyond one group."
+"Circle 4 ran two full rounds. Round 0: three members contributed 0.5 USDC each, the agent detected the funded round and paid out 1.5 USDC to the first member in rotation. Round 1: one member went late — the agent recorded a risk flag onchain as durable evidence — then the member recovered, and the agent executed the next payout."
 
-## 0:55-1:20 - Show Onchain Proof
+Proof to show (Blockscout):
 
-Show MetaMask activity or Blockscout links.
+- Autonomous payout: `0xcd50eb7e89869bfd1204f3d07d1f0cfd096fd9724ad416897be6776356dfc52f`
+- Autonomous risk flag: `0xe29aedb6135c3f89c76e8bb378191abd98eec3f5f8e538a459320e7ae0586775`
 
-"The demo is live on Celo Sepolia. Circle 3 was created with public agent metadata at chamascore-agent.vercel.app/agent.json. The wallet approves and contributes 0.5 USDC, and the agent can record a late-payer risk flag onchain."
+## 1:00-1:25 - ERC-8004 Reputation
 
-Proof to show:
+Show `https://8004scan.io/agents/celo-sepolia/338`.
 
-- Contract: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`
-- Circle 3 creation tx: `0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1`
+"ChamaScore is agent #338 on the ERC-8004 Identity Registry. Its reputation is independently earned: circle members rated it from their own wallets on the Reputation Registry — the registry blocks operator self-rating. Four ratings, average 97 out of 100."
 
-## 1:20-1:45 - Show Agent Metadata/API
+## 1:25-1:50 - Agent-to-Agent Endpoints
 
-Open `/agent.json`, `/api/agent/report`, `/api/agent/actions`, then `/api/agent/onchain-proof`.
+Open `/.well-known/agent-card.json`, then run the A2A query (or show the MCP descriptor).
 
-"ChamaScore exposes inspectable agent metadata, a report API, an encoded action API, and a live onchain proof API. Judges can inspect what the agent is, what it decides, what transactions it recommends, and what is already confirmed on Celo Sepolia."
+"Other agents can use ChamaScore directly. It serves a live A2A agent card and an MCP server — any LLM or agent can ask for a trust report on a circle and get scores derived from real onchain history, not sample data."
 
-## 1:45-2:10 - Explain Why Celo
+## 1:50-2:10 - Why Celo
 
-"Celo is the right home because this is a real-world payments workflow: small stablecoin contributions, low network fees, and mobile-first UX. MiniPay gives this a natural distribution path for everyday savings groups."
+"Celo is the right home because this is a real-world payments workflow: small stablecoin contributions, low fees, mobile-first UX. MiniPay gives this a natural distribution path — and ChamaScore makes the reliability inside those groups portable."
 
 ## 2:10-2:30 - Close
 
-"The next step is ERC-8004/8004scan registration and Self Agent ID verification. The core payment path is already working: the agent observes, scores, flags, prepares transactions, and connects real savings-circle activity to portable trust."
+"The agent observes, scores, flags, pays out, and earns reputation — all onchain, all verifiable. Savings circles are how millions already save. ChamaScore gives that trust a ledger."
 
 ## Recording Rules
 
 - Keep the video under 3 minutes.
 - Show the actual app first, not slides.
-- Show the transaction proof clearly.
+- Click into at least one autonomous transaction on Blockscout.
 - Do not say "guaranteed winner."
 - Say "working Celo Sepolia demo" instead of "production-ready."
