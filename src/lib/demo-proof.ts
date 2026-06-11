@@ -4,8 +4,9 @@ export const demoContractAddress =
   process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ??
   "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5";
 
-/** Active hackathon demo circle — Circle 3 has public metadata on Vercel. */
-export const demoCircleId = 3;
+export const demoCircleId = Number(
+  process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID ?? "4",
+);
 
 export const demoWalletAddress = "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603";
 
@@ -18,16 +19,19 @@ export const demoAgentMetadataUrl =
 export const demoProofTransactions = {
   circleCreated:
     process.env.NEXT_PUBLIC_PROOF_CIRCLE_CREATED_TX ??
-    "0xb92cad2604b08f8b65324ee05f4ecff59c0c05d905ac6ac06e3c1ac25a5b12c1",
+    "0x2456fb9d981743043892200efdd25e19a9408ff4df3032666943237d88be24ab",
   approval:
     process.env.NEXT_PUBLIC_PROOF_APPROVAL_TX ??
-    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x05bb548239750b97f13c6661f5dd81fa140a3dbfcf568895ac2e9886c4cb9031",
   contribution:
     process.env.NEXT_PUBLIC_PROOF_CONTRIBUTION_TX ??
-    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x01da3da0640490f6c3ca0073f9b7d10c4d1146e955df27bb02408158d3aca705",
   riskFlag:
     process.env.NEXT_PUBLIC_PROOF_RISK_FLAG_TX ??
-    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0xe29aedb6135c3f89c76e8bb378191abd98eec3f5f8e538a459320e7ae0586775",
+  payout:
+    process.env.NEXT_PUBLIC_PROOF_PAYOUT_TX ??
+    "0xcd50eb7e89869bfd1204f3d07d1f0cfd096fd9724ad416897be6776356dfc52f",
 } as const;
 
 export function blockscoutTxUrl(hash: string) {
@@ -58,6 +62,10 @@ export function getDemoProofLinks() {
 
   if (isRecordedTxHash(demoProofTransactions.riskFlag)) {
     links.riskFlag = blockscoutTxUrl(demoProofTransactions.riskFlag);
+  }
+
+  if (isRecordedTxHash(demoProofTransactions.payout)) {
+    links.payout = blockscoutTxUrl(demoProofTransactions.payout);
   }
 
   return links;
@@ -98,6 +106,14 @@ export function getDemoProofUiItems() {
       label: "Risk flag",
       value: "Recorded",
       href: blockscoutTxUrl(demoProofTransactions.riskFlag),
+    });
+  }
+
+  if (isRecordedTxHash(demoProofTransactions.payout)) {
+    items.push({
+      label: "Agent payout",
+      value: "Executed",
+      href: blockscoutTxUrl(demoProofTransactions.payout),
     });
   }
 

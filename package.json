@@ -10,7 +10,13 @@
     "typecheck": "tsc --noEmit",
     "verify:demo": "node scripts/verify-demo-state.mjs",
     "verify:judge": "node scripts/verify-judge-packet.mjs",
+    "agent:run": "node scripts/agent-runner.mjs",
+    "demo:setup": "node scripts/setup-demo-circle.mjs",
+    "demo:feedback": "node scripts/member-feedback.mjs",
     "complete:circle3": "node scripts/complete-circle3-demo.mjs",
+    "register:erc8004": "node scripts/register-erc8004.mjs",
+    "register:self": "node scripts/register-self-agent.mjs",
+    "register:self:status": "node scripts/register-self-agent.mjs status",
     "compile:contracts": "npx --yes solc@0.8.35 --bin --abi contracts/ChamaScoreCircle.sol -o artifacts"
   },
   "dependencies": {

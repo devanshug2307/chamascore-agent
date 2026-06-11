@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect width="256" height="256" rx="56" fill="#0B1F17"/>
+  <g fill="none" stroke="#34D399" stroke-width="10" stroke-linecap="round">
+    <circle cx="128" cy="128" r="74" stroke-dasharray="350 116" transform="rotate(-90 128 128)"/>
+  </g>
+  <circle cx="128" cy="54" r="13" fill="#34D399"/>
+  <circle cx="196" cy="98" r="13" fill="#34D399"/>
+  <circle cx="172" cy="192" r="13" fill="#FBBF24"/>
+  <circle cx="84" cy="192" r="13" fill="#34D399"/>
+  <circle cx="60" cy="98" r="13" fill="#34D399"/>
+  <text x="128" y="143" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="52" font-weight="700" fill="#F9FAFB" text-anchor="middle">92</text>
+  <text x="128" y="170" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="500" fill="#9CA3AF" text-anchor="middle">SCORE</text>
+</svg>

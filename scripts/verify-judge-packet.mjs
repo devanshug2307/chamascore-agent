@@ -17,21 +17,35 @@ function check(condition, label, details = undefined) {
 }
 
 async function main() {
-  const [metadata, report, actions, proof] = await Promise.all([
-    readJson("/agent.json"),
-    readJson("/api/agent/report"),
-    readJson("/api/agent/actions"),
-    readJson("/api/agent/onchain-proof"),
-  ]);
+  const [metadata, report, actions, proof, agentCard, mcpDescriptor] =
+    await Promise.all([
+      readJson("/agent.json"),
+      readJson("/api/agent/report"),
+      readJson("/api/agent/actions"),
+      readJson("/api/agent/onchain-proof"),
+      readJson("/.well-known/agent-card.json"),
+      readJson("/.well-known/mcp.json"),
+    ]);
 
   const checks = [
     check(metadata.name === "ChamaScore Agent", "agent metadata name"),
     check(
-      metadata.endpoints?.report === "/api/agent/report" &&
-        metadata.endpoints?.onchainProof === "/api/agent/onchain-proof" &&
-        metadata.endpoints?.actions === "/api/agent/actions",
+      metadata.legacyEndpoints?.report === "/api/agent/report" &&
+        metadata.legacyEndpoints?.onchainProof === "/api/agent/onchain-proof" &&
+        metadata.legacyEndpoints?.actions === "/api/agent/actions",
       "agent metadata exposes report, proof, and actions endpoints",
-      metadata.endpoints,
+      metadata.legacyEndpoints,
+    ),
+    check(
+      metadata.endpoints?.some((endpoint) => endpoint.type === "a2a") &&
+        metadata.endpoints?.some((endpoint) => endpoint.type === "mcp"),
+      "agent metadata exposes A2A and MCP endpoints (ERC-8004 format)",
+    ),
+    check(
+      metadata.registrations?.some(
+        (registration) => Number(registration.agentId) === 338,
+      ),
+      "agent metadata includes ERC-8004 registration (agentId 338)",
     ),
     check(report.network === "celo-sepolia", "report network is Celo Sepolia"),
     check(report.riskFlags?.length > 0, "report includes risk flags"),
@@ -53,6 +67,15 @@ async function main() {
         !proof.circle.metadataURI.includes("localhost"),
       "circle metadata URI is public",
       proof.circle?.metadataURI,
+    ),
+    check(
+      agentCard.protocolVersion === "0.3.0" && agentCard.skills?.length > 0,
+      "A2A agent card is live with skills",
+    ),
+    check(
+      mcpDescriptor.transport?.type === "streamable-http" ||
+        mcpDescriptor.tools?.length > 0,
+      "MCP descriptor is live with tools",
     ),
   ];
 

@@ -1,0 +1,44 @@
+name: ChamaScore agent run
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agent-run
+  cancel-in-progress: false
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run autonomous agent pass
+        env:
+          CHAMASCORE_PRIVATE_KEY: ${{ secrets.CHAMASCORE_PRIVATE_KEY }}
+          CELO_SEPOLIA_RPC_URL: ${{ secrets.CELO_SEPOLIA_RPC_URL }}
+        run: npm run agent:run
+
+      - name: Commit updated run log
+        run: |
+          git config user.name "chamascore-agent[bot]"
+          git config user.email "chamascore-agent@users.noreply.github.com"
+          git add public/agent-runs.json artifacts/agent-runs
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "agent: record autonomous run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi

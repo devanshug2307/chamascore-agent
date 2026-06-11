@@ -1,0 +1,77 @@
+{
+  "agent": "ChamaScore Agent",
+  "startedAt": "2026-06-11T19:11:02.166Z",
+  "network": "celo-sepolia",
+  "contract": "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
+  "operator": "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+  "circles": [
+    {
+      "circleId": 0,
+      "round": 0,
+      "members": 2,
+      "paid": 0,
+      "pending": [
+        "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0",
+      "expected": "1000000000000"
+    },
+    {
+      "circleId": 1,
+      "round": 0,
+      "members": 2,
+      "paid": 0,
+      "pending": [
+        "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0",
+      "expected": "1"
+    },
+    {
+      "circleId": 2,
+      "round": 0,
+      "members": 2,
+      "paid": 1,
+      "pending": [
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0.5",
+      "expected": "1"
+    },
+    {
+      "circleId": 3,
+      "round": 0,
+      "members": 2,
+      "paid": 1,
+      "pending": [
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0.5",
+      "expected": "1"
+    },
+    {
+      "circleId": 4,
+      "round": 1,
+      "members": 3,
+      "paid": 3,
+      "pending": [],
+      "collected": "1.5",
+      "expected": "1.5"
+    }
+  ],
+  "actions": [
+    {
+      "type": "payout",
+      "circleId": 4,
+      "round": 1,
+      "recipient": "0xE065704e17E4C07Dcf10C4fdD17F1f2eb82fab41",
+      "amount": "1.5",
+      "tx": "0x9075de0f2c0d1da02d3d913eb4ad51ed75eaf6d149274b61b6df7d9ac73c99ed",
+      "explorer": "https://celo-sepolia.blockscout.com/tx/0x9075de0f2c0d1da02d3d913eb4ad51ed75eaf6d149274b61b6df7d9ac73c99ed"
+    }
+  ],
+  "finishedAt": "2026-06-11T19:11:15.091Z",
+  "summary": "5 active circle(s) scanned, 1 onchain action(s) executed"
+}

@@ -1,0 +1,79 @@
+{
+  "agent": "ChamaScore Agent",
+  "startedAt": "2026-06-11T19:10:26.630Z",
+  "network": "celo-sepolia",
+  "contract": "0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5",
+  "operator": "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+  "circles": [
+    {
+      "circleId": 0,
+      "round": 0,
+      "members": 2,
+      "paid": 0,
+      "pending": [
+        "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0",
+      "expected": "1000000000000"
+    },
+    {
+      "circleId": 1,
+      "round": 0,
+      "members": 2,
+      "paid": 0,
+      "pending": [
+        "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603",
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0",
+      "expected": "1"
+    },
+    {
+      "circleId": 2,
+      "round": 0,
+      "members": 2,
+      "paid": 1,
+      "pending": [
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0.5",
+      "expected": "1"
+    },
+    {
+      "circleId": 3,
+      "round": 0,
+      "members": 2,
+      "paid": 1,
+      "pending": [
+        "0x19a12F8B9e8Ef0a1443B86f842CC3901d9c09a91"
+      ],
+      "collected": "0.5",
+      "expected": "1"
+    },
+    {
+      "circleId": 4,
+      "round": 1,
+      "members": 3,
+      "paid": 2,
+      "pending": [
+        "0x60c413cf6b51E740b971B377b4Ab862bDE8063DC"
+      ],
+      "collected": "1",
+      "expected": "1.5"
+    }
+  ],
+  "actions": [
+    {
+      "type": "risk-flag",
+      "circleId": 4,
+      "round": 1,
+      "member": "0x60c413cf6b51E740b971B377b4Ab862bDE8063DC",
+      "reason": "round 1: pending while majority contributed",
+      "tx": "0xe29aedb6135c3f89c76e8bb378191abd98eec3f5f8e538a459320e7ae0586775",
+      "explorer": "https://celo-sepolia.blockscout.com/tx/0xe29aedb6135c3f89c76e8bb378191abd98eec3f5f8e538a459320e7ae0586775"
+    }
+  ],
+  "finishedAt": "2026-06-11T19:10:38.369Z",
+  "summary": "5 active circle(s) scanned, 1 onchain action(s) executed"
+}
