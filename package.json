@@ -1,17 +1,24 @@
 {
-  "name": "chamaguard",
+  "name": "chamascore",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "verify:demo": "node scripts/verify-demo-state.mjs",
+    "compile:contracts": "npx --yes solc@0.8.35 --bin --abi contracts/ChamaScoreCircle.sol -o artifacts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.101.0",
+    "lucide-react": "^1.17.0",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "viem": "^2.52.2",
+    "wagmi": "^3.6.16"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "playwright": "^1.60.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

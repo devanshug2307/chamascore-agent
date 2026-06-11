@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f8f5;
+  --foreground: #17201b;
+  --panel: #ffffff;
+  --panel-muted: #eef3ee;
+  --border: #d8dfd8;
+  --muted: #5d6b60;
+  --trust: #097a4a;
+  --trust-soft: #dff3e7;
+  --risk: #a44f06;
+  --risk-soft: #fff1d8;
+  --info: #0e6b8f;
+  --info-soft: #dff3f8;
+  --danger: #a13434;
+  --danger-soft: #ffe5e5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-panel-muted: var(--panel-muted);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-trust: var(--trust);
+  --color-trust-soft: var(--trust-soft);
+  --color-risk: var(--risk);
+  --color-risk-soft: var(--risk-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #101511;
+    --foreground: #edf4ec;
+    --panel: #172018;
+    --panel-muted: #1d2a20;
+    --border: #2e3c31;
+    --muted: #adbaaf;
+    --trust: #6ad796;
+    --trust-soft: #153523;
+    --risk: #f2b15f;
+    --risk-soft: #39260f;
+    --info: #7bc6df;
+    --info-soft: #132f38;
+    --danger: #f08c8c;
+    --danger-soft: #3c1d1d;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  outline-color: var(--trust);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .soft-enter {
+    animation: soft-enter 420ms ease-out both;
+  }
+
+  @keyframes soft-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
