@@ -116,7 +116,7 @@ async function main() {
   };
 
   // 1. Fund member wallets if needed.
-  // On mainnet members pay gas in USDC (fee abstraction) — no native CELO needed.
+  // With CHAMASCORE_GAS=usdc members pay gas in USDC — no native CELO needed.
   for (const account of memberAccounts) {
     const [gas, usdc] = await Promise.all([
       publicClient.getBalance({ address: account.address }),
@@ -127,7 +127,7 @@ async function main() {
         args: [account.address],
       }),
     ]);
-    if (!IS_MAINNET && gas < parseEther("0.02")) {
+    if (!TX_OPTS.feeCurrency && gas < parseEther("0.02")) {
       await send(`fund gas -> ${account.address}`, () =>
         organizerClient.sendTransaction({
           to: account.address,

@@ -26,10 +26,12 @@ export const USDC = getAddress(
       : "0x01C5C0122039549AD1493B8220cABEdD739BC44E"),
 );
 
+// Opt-in USDC gas via CHAMASCORE_GAS=usdc (mainnet only). Default is native CELO.
 // 6-decimal tokens must use the FeeCurrencyAdapter as feeCurrency, not the token.
-export const TX_OPTS = IS_MAINNET
-  ? { feeCurrency: getAddress("0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B") }
-  : {};
+export const TX_OPTS =
+  IS_MAINNET && process.env.CHAMASCORE_GAS === "usdc"
+    ? { feeCurrency: getAddress("0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B") }
+    : {};
 
 export const IDENTITY_REGISTRY = getAddress(
   process.env.NEXT_PUBLIC_ERC8004_IDENTITY_REGISTRY ??
