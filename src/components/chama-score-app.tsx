@@ -50,7 +50,7 @@ declare global {
 const contractAddress = process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT as
   | Address
   | undefined;
-const defaultCircleId = BigInt(process.env.NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID ?? String(demoCircleId));
+const defaultCircleId = BigInt(demoCircleId);
 const demoProofLinks = getDemoProofUiItems();
 
 const severityClass = {
