@@ -45,7 +45,7 @@ Contract addresses:
 GitHub URL:
 
 ```text
-TODO: add public GitHub repo URL
+https://github.com/devanshug2307/chamascore-agent
 ```
 
 Demo URL:

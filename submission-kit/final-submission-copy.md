@@ -43,7 +43,7 @@ Contract addresses:
 GitHub URL:
 
 ```text
-TODO_PUBLIC_GITHUB_URL
+https://github.com/devanshug2307/chamascore-agent
 ```
 
 Demo URL:
