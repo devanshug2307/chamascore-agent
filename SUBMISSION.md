@@ -73,7 +73,7 @@ https://8004scan.io/agents/celo-sepolia/338
 Self Agent ID status:
 
 ```text
-TODO: add Self Agent ID link, or attach unsupported-region screenshot if Self is unavailable (optional)
+Completed. Self Agent ID: 74 — agent address 0x8a87EEa23aDE3B6A1894844861dc6e30D035FAcC, registered via app.ai.self.xyz (linked mode, Celo testnet) and verified on-chain, linked to operator wallet 0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603.
 ```
 
 ## Short Description
@@ -126,7 +126,7 @@ Savings circles already exist. ChamaScore makes contribution history auditable, 
 
 Verification:
 
-Registered as ERC-8004 agent #338 with reputation earned from independent member wallets (the registry blocks operator self-rating). A2A and MCP endpoints are live for agent-to-agent verification. Self Agent ID is in progress (or unsupported-region screenshot attached).
+Registered as ERC-8004 agent #338 with reputation earned from independent member wallets (the registry blocks operator self-rating). A2A and MCP endpoints are live for agent-to-agent verification. Self Agent ID 74 completed and verified on-chain (agent address `0x8a87EEa23aDE3B6A1894844861dc6e30D035FAcC`, linked to the operator wallet).
 
 ## Final Publish Checklist
 
@@ -136,8 +136,8 @@ Registered as ERC-8004 agent #338 with reputation earned from independent member
 - [x] Circle 4 full lifecycle recorded: creation, approvals, contributions, autonomous payouts, risk flag.
 - [x] ERC-8004 registration + member feedback (4 ratings, avg 97).
 - [x] A2A + MCP endpoints implemented.
-- [ ] Pushed to GitHub and Vercel redeployed (env vars updated).
-- [ ] Live endpoints verified on production.
+- [x] Pushed to GitHub and Vercel redeployed (env vars updated).
+- [x] Live endpoints verified on production (14/14 judge checks pass).
 - [ ] X/Twitter registration post is public and linked.
 - [ ] Telegram group joined: `https://t.me/realworldagentshackathon`
 - [ ] Submission is reviewed once before publishing.
@@ -145,5 +145,5 @@ Registered as ERC-8004 agent #338 with reputation earned from independent member
 High-impact but not platform-minimum:
 
 - [ ] Demo video is uploaded.
-- [ ] Self Agent ID completed, or unsupported-region screenshot attached.
-- [ ] GitHub Actions cron enabled (`CHAMASCORE_PRIVATE_KEY` secret set in repo).
+- [x] Self Agent ID completed (ID 74, agent address `0x8a87EEa23aDE3B6A1894844861dc6e30D035FAcC`).
+- [x] GitHub Actions cron enabled (`CHAMASCORE_PRIVATE_KEY` secret set in repo).

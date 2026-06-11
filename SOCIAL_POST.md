@@ -51,15 +51,13 @@ Let's go 🛠 #CeloAgents @Celo
 
 ---
 
-## Optional line (only if you complete Self Agent ID)
+## Optional line (Self Agent ID — completed, ID 74)
 
 Add before `#CeloAgents`:
 
 ```text
-Self Agent ID → [PASTE YOUR SELF LINK]
+Self-verified agent ✅ (Self Agent ID 74)
 ```
-
-If Self is blocked in your region, skip the tweet line — attach an unsupported-region screenshot in Celo Builders instead.
 
 ---
 

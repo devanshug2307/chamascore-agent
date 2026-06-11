@@ -66,7 +66,7 @@ Verification:
 
 - ERC-8004 agent #338 with reputation earned from non-operator wallets (self-rating blocked by the registry).
 - Live A2A + MCP endpoints for agent-to-agent verification.
-- Self Agent ID in progress (or unsupported-region screenshot attached).
+- Self Agent ID 74 completed and verified on-chain (agent address `0x8a87EEa23aDE3B6A1894844861dc6e30D035FAcC`, linked to the operator wallet via app.ai.self.xyz).
 
 ## Strongest Demo Narrative
 
@@ -74,10 +74,9 @@ Verification:
 
 ## Remaining Submission Items
 
-These require the builder's external accounts:
+Done: Vercel env updated + redeployed, GitHub cron secret set (cron verified end-to-end), Self Agent ID 74 verified.
 
-- Vercel env var `NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID` updated to `4` and redeployed.
-- GitHub repo secret `CHAMASCORE_PRIVATE_KEY` set so the agent cron runs.
+Still require the builder's external accounts:
+
 - Demo video.
 - X/Twitter registration post.
-- Self Agent ID or unsupported-region screenshot (optional).

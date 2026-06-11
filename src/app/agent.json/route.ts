@@ -70,6 +70,14 @@ export async function GET() {
       ],
       trustModels: ["reputation"],
       supportedTrust: ["reputation"],
+      selfVerification: {
+        provider: "self.xyz",
+        selfAgentId: 74,
+        agentAddress: "0x8a87EEa23aDE3B6A1894844861dc6e30D035FAcC",
+        linkedHumanAddress: AGENT_WALLET,
+        network: "testnet",
+        status: "completed",
+      },
       reputationRegistry: `${CHAIN_CAIP2}:${ERC8004_REPUTATION_REGISTRY}`,
       skills: AGENT_SKILLS.map((skill) => ({
         id: skill.id,
@@ -122,7 +130,7 @@ export async function GET() {
       },
       submission: {
         hackathon: "celo-onchain-agents",
-        tracks: ["best-agent"],
+        tracks: ["best-agent", "most-activity"],
       },
     },
     {
