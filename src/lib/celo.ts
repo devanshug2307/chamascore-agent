@@ -150,7 +150,7 @@ export function getAgentMetadataUrl() {
     return `${window.location.origin}/agent.json`;
   }
 
-  return "http://localhost:3000/agent.json";
+  return "https://chamascore-agent.vercel.app/agent.json";
 }
 
 export function encodeCreateUsdcCircle(chainId: number, organizer: Address) {
