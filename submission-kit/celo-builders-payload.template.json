@@ -5,7 +5,7 @@
   "trackIds": ["best-agent"],
   "bountyIds": ["best-agent-1st"],
   "githubUrl": "https://github.com/devanshug2307/chamascore-agent",
-  "demoUrl": "TODO_PUBLIC_DEMO_URL",
+  "demoUrl": "https://chamascore-agent.vercel.app",
   "videoUrl": "TODO_DEMO_VIDEO_URL",
   "socialLink": "TODO_PUBLIC_X_POST_URL",
   "celoNetwork": "celo-sepolia",

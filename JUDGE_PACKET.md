@@ -12,7 +12,7 @@ Savings circles already exist across chamas, stokvels, susus, committees, and fa
 
 ## Working Demo State
 
-- App: `http://localhost:3000` locally, public URL still required before submission.
+- App: `https://chamascore-agent.vercel.app`
 - Agent metadata: `/agent.json`
 - Agent report API: `/api/agent/report`
 - Encoded actions API: `/api/agent/actions`
@@ -74,7 +74,7 @@ Verification:
 
 These require the builder's external accounts:
 
-- Public app URL still needed.
+- Public app URL is live: `https://chamascore-agent.vercel.app`
 - Fresh circle with public `/agent.json` metadata URI still needed after deployment.
 - Public GitHub repo is live: `https://github.com/devanshug2307/chamascore-agent`
 - Demo video still needed.

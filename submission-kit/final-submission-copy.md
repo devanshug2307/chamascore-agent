@@ -49,7 +49,7 @@ https://github.com/devanshug2307/chamascore-agent
 Demo URL:
 
 ```text
-TODO_PUBLIC_DEMO_URL
+https://chamascore-agent.vercel.app
 ```
 
 Video URL:

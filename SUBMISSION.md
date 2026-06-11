@@ -51,7 +51,7 @@ https://github.com/devanshug2307/chamascore-agent
 Demo URL:
 
 ```text
-TODO: add deployed app URL or stable tunnel URL
+https://chamascore-agent.vercel.app
 ```
 
 Video URL:
@@ -132,7 +132,7 @@ Codex helped research the hackathon, compare project directions, identify the di
 
 - [ ] Public GitHub repo exists.
 - [ ] `README.md` shows setup, contract address, and transaction proof.
-- [ ] Demo URL is public.
+- [x] Demo URL is public.
 - [ ] Fresh public-metadata circle is created after deploy.
 - [ ] Risk flag transaction is recorded if CELO gas is available.
 - [ ] X/Twitter registration post is public and linked.

@@ -29,7 +29,7 @@ records risk flags onchain, and turns each round into portable reputation eviden
 ## Highest-Impact Remaining Steps
 
 1. Deploy the app to a public URL.
-2. Set `NEXT_PUBLIC_AGENT_METADATA_URL=https://YOUR_PUBLIC_DEMO_URL/agent.json`.
+2. Set `NEXT_PUBLIC_AGENT_METADATA_URL=https://chamascore-agent.vercel.app/agent.json`.
 3. Create a fresh Celo Sepolia circle after deployment so `metadataURI` is public, not `localhost`.
 4. Record one risk-flag transaction from the app for the late/risky member.
 5. Record a short demo video showing:

@@ -11,7 +11,7 @@ It turns savings-circle payment behavior into portable trust: USDC contributions
 
 Celo Sepolia demo is live with confirmed USDC contribution.
 
-Demo: TODO_PUBLIC_DEMO_URL
+Demo: https://chamascore-agent.vercel.app
 
 @CeloDevs @Celo
 ```
@@ -30,7 +30,7 @@ Working Celo Sepolia demo:
 - Circle 2 created with USDC
 - 0.5 USDC contribution confirmed
 
-Demo: TODO_PUBLIC_DEMO_URL
+Demo: https://chamascore-agent.vercel.app
 
 @CeloDevs @Celo
 ```

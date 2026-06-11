@@ -8,7 +8,7 @@ Target length: 2 minutes 30 seconds.
 
 ## 0:15-0:35 - Show The App
 
-Show `http://localhost:3000`.
+Show `https://chamascore-agent.vercel.app`.
 
 "The app shows a live savings circle. The agent scores the group, tracks collected USDC, identifies the payout state, and highlights member reliability. This is not a generic chatbot; it is an agent that turns payment behavior into a decision."
 

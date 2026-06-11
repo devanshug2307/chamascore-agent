@@ -66,7 +66,7 @@ For the final judge packet, run the app locally or against a public URL:
 
 ```bash
 npm run verify:judge
-CHAMASCORE_BASE_URL=https://YOUR_PUBLIC_DEMO_URL npm run verify:judge
+CHAMASCORE_BASE_URL=https://chamascore-agent.vercel.app npm run verify:judge
 ```
 
 `verify:judge` checks `/agent.json`, `/api/agent/report`, `/api/agent/actions`, and `/api/agent/onchain-proof`. It intentionally fails if the active circle metadata still points to `localhost`; after deploying the app, create a fresh circle with `NEXT_PUBLIC_AGENT_METADATA_URL` set to the public `/agent.json` URL.
@@ -79,7 +79,7 @@ Set these after deploying the contract:
 NEXT_PUBLIC_CHAMASCORE_CONTRACT=0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5
 NEXT_PUBLIC_CHAMASCORE_CIRCLE_ID=2
 NEXT_PUBLIC_CHAMASCORE_USDC=0x01C5C0122039549AD1493B8220cABEdD739BC44E
-NEXT_PUBLIC_AGENT_METADATA_URL=https://YOUR_PUBLIC_DEMO_URL/agent.json
+NEXT_PUBLIC_AGENT_METADATA_URL=https://chamascore-agent.vercel.app/agent.json
 ```
 
 The app then prepares two transactions for MiniPay/Celo wallets:

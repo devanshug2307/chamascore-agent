@@ -8,7 +8,7 @@ Required hackathon social field: public X/Twitter post URL from `x.com` or `twit
 
 ## Already Done Locally
 
-- App exists and runs locally at `http://localhost:3000`.
+- App exists locally at `http://localhost:3000` and publicly at `https://chamascore-agent.vercel.app`.
 - Agent metadata exists at `/agent.json`.
 - Agent report API exists at `/api/agent/report`.
 - Celo Sepolia contract is deployed: `0xAE849506E7C2c8E8B356A4a57aFdca7Bf42D93E5`.
@@ -22,7 +22,7 @@ Required hackathon social field: public X/Twitter post URL from `x.com` or `twit
 ## Must Be Done With Your Accounts
 
 1. Push this project to a public GitHub repo.
-2. Deploy the app to a public URL.
+2. Deploy the app to a public URL. Done: `https://chamascore-agent.vercel.app`.
 3. Set `NEXT_PUBLIC_AGENT_METADATA_URL` to the public `/agent.json` URL.
 4. Create a fresh Celo Sepolia circle with the public metadata URL.
 5. Record one risk-flag transaction if gas is available.
