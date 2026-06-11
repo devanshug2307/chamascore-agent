@@ -4,6 +4,7 @@ import {
   encodeApprove,
   encodeContribution,
   encodeCreateUsdcCircle,
+  getAgentMetadataUrl,
   encodeRiskFlag,
   supportedChains,
 } from "@/lib/celo";
@@ -24,9 +25,7 @@ export async function GET() {
     network: "celo-sepolia",
     contractAddress,
     circleId: Number(circleId),
-    publicMetadataUrl:
-      process.env.NEXT_PUBLIC_AGENT_METADATA_URL ||
-      "https://chamascore-agent.vercel.app/agent.json",
+    publicMetadataUrl: getAgentMetadataUrl(),
     actions: [
       {
         id: "create-public-metadata-circle",

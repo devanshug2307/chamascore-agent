@@ -142,7 +142,11 @@ export function encodeRiskFlag(
 }
 
 export function getAgentMetadataUrl() {
-  if (process.env.NEXT_PUBLIC_AGENT_METADATA_URL) {
+  if (
+    process.env.NEXT_PUBLIC_AGENT_METADATA_URL &&
+    !process.env.NEXT_PUBLIC_AGENT_METADATA_URL.includes("YOUR_") &&
+    !process.env.NEXT_PUBLIC_AGENT_METADATA_URL.includes("YOUR-")
+  ) {
     return process.env.NEXT_PUBLIC_AGENT_METADATA_URL;
   }
 
