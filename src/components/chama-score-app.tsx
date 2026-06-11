@@ -19,6 +19,7 @@ import { isAddress, type Address } from "viem";
 import {
   encodeApprove,
   encodeContribution,
+  encodeCreateUsdcCircle,
   encodeRiskFlag,
   isSupportedMiniPayChain,
   normalizeChainId,
@@ -236,6 +237,47 @@ export function ChamaScoreApp() {
       setTxStatus(`Contribution sent: ${shortAddress(contributionHash)}.`);
     } catch (error) {
       setTxStatus(error instanceof Error ? error.message : "Transaction request failed.");
+    } finally {
+      setIsSending(false);
+    }
+  }
+
+  async function createPublicMetadataCircle() {
+    if (!provider || !account || !chainId) {
+      setTxStatus("Open in MiniPay or connect a Celo wallet first.");
+      return;
+    }
+
+    if (chainId !== supportedChains.sepolia.id) {
+      setTxStatus("Switch to Celo Sepolia before creating the public-metadata circle.");
+      return;
+    }
+
+    if (!contractAddress) {
+      setTxStatus("Contract address is not configured.");
+      return;
+    }
+
+    setIsSending(true);
+    setTxStatus("Creating fresh circle with public agent metadata...");
+
+    try {
+      const createHash = (await provider.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: account,
+            to: contractAddress,
+            data: encodeCreateUsdcCircle(chainId, account as Address),
+          },
+        ],
+      })) as string;
+
+      setTxStatus(
+        `Fresh circle creation sent: ${shortAddress(createHash)}. After it confirms, open the tx and copy the new CircleCreated circleId.`,
+      );
+    } catch (error) {
+      setTxStatus(error instanceof Error ? error.message : "Fresh circle creation failed.");
     } finally {
       setIsSending(false);
     }
@@ -623,6 +665,16 @@ export function ChamaScoreApp() {
               >
                 <Smartphone size={16} aria-hidden="true" />
                 {isSending ? "Switching..." : "Switch to Celo Sepolia"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void createPublicMetadataCircle()}
+                disabled={isSending}
+                className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-trust px-4 py-2 text-sm font-semibold text-trust transition hover:bg-trust-soft focus-visible:ring-2 focus-visible:ring-trust disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <BadgeCheck size={16} aria-hidden="true" />
+                {isSending ? "Creating..." : "Create public metadata circle"}
               </button>
 
               <button
