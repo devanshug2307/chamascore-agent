@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { NETWORK_LABEL } from "@/lib/agent-metadata";
 import { runChamaScoreAgent, sampleCircle, type CircleConfig } from "@/lib/chamascore";
 import { demoCircleId, demoContractAddress, getDemoProofLinks } from "@/lib/demo-proof";
 
@@ -24,7 +25,7 @@ function buildAgentPayload(config: CircleConfig, source: string) {
   return {
     generatedAt: new Date().toISOString(),
     source,
-    network: "celo-sepolia",
+    network: NETWORK_LABEL,
     contractAddress,
     circleId,
     report,
@@ -79,7 +80,7 @@ function buildAgentPayload(config: CircleConfig, source: string) {
 }
 
 export async function GET() {
-  return NextResponse.json(buildAgentPayload(sampleCircle, "celo-sepolia-demo-circle"));
+  return NextResponse.json(buildAgentPayload(sampleCircle, `${NETWORK_LABEL}-demo-circle`));
 }
 
 export async function POST(request: Request) {

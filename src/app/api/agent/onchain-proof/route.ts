@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { createPublicClient, erc20Abi, formatUnits, getAddress, http, parseAbi } from "viem";
-import { celoSepolia } from "viem/chains";
+import { erc20Abi, formatUnits, getAddress, parseAbi } from "viem";
+import { NETWORK_LABEL } from "@/lib/agent-metadata";
+import { getPublicClient } from "@/lib/live-circle";
 import {
   demoAgentMetadataUrl,
   demoCircleId,
@@ -26,13 +27,9 @@ const circleAbi = parseAbi([
 
 const proofLinks = getDemoProofLinks();
 
-const client = createPublicClient({
-  chain: celoSepolia,
-  transport: http(process.env.CELO_SEPOLIA_RPC_URL || undefined),
-});
-
 export async function GET() {
   try {
+    const client = getPublicClient();
     const [organizer, token, contributionAmount, currentRound, active, metadataURI] =
       await client.readContract({
         address: CONTRACT,
@@ -71,9 +68,9 @@ export async function GET() {
 
     return NextResponse.json({
       ok: true,
-      source: "celo-sepolia-live-read",
+      source: `${NETWORK_LABEL}-live-read`,
       generatedAt: new Date().toISOString(),
-      network: "celo-sepolia",
+      network: NETWORK_LABEL,
       contract: CONTRACT,
       circleId: Number(CIRCLE_ID),
       circle: {
@@ -100,7 +97,7 @@ export async function GET() {
     return NextResponse.json(
       {
         ok: false,
-        source: "celo-sepolia-live-read",
+        source: `${NETWORK_LABEL}-live-read`,
         error: error instanceof Error ? error.message : "Unknown onchain proof error",
       },
       { status: 500 },

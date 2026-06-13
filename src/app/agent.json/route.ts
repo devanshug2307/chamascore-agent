@@ -12,7 +12,9 @@ import {
   ERC8004_AGENT_ID,
   ERC8004_IDENTITY_REGISTRY,
   ERC8004_REPUTATION_REGISTRY,
+  IS_MAINNET,
   MCP_ENDPOINT,
+  NETWORK_LABEL,
 } from "@/lib/agent-metadata";
 import {
   demoCircleId,
@@ -89,8 +91,8 @@ export async function GET() {
       // ChamaScore-specific metadata (kept for judges and existing integrations)
       category: "real-world-payments",
       chain: "celo",
-      networks: ["celo-sepolia"],
-      plannedNetworks: ["celo-mainnet"],
+      networks: [NETWORK_LABEL],
+      ...(IS_MAINNET ? {} : { plannedNetworks: ["celo-mainnet"] }),
       capabilities: [
         "stablecoin contribution monitoring",
         "member reliability scoring",
@@ -111,7 +113,7 @@ export async function GET() {
         mcp: "/api/mcp",
       },
       deployment: {
-        network: "celo-sepolia",
+        network: NETWORK_LABEL,
         contractAddress: demoContractAddress,
         activeCircleId: demoCircleId,
         token: {

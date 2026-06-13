@@ -27,8 +27,12 @@ jobs:
 
       - name: Run autonomous agent pass
         env:
+          # Set repo variable CHAMASCORE_NETWORK=mainnet to flip the cron to
+          # Celo mainnet. Unset -> defaults to celo-sepolia (no behavior change).
+          CHAMASCORE_NETWORK: ${{ vars.CHAMASCORE_NETWORK }}
           CHAMASCORE_PRIVATE_KEY: ${{ secrets.CHAMASCORE_PRIVATE_KEY }}
           CELO_SEPOLIA_RPC_URL: ${{ secrets.CELO_SEPOLIA_RPC_URL }}
+          CELO_RPC_URL: ${{ secrets.CELO_RPC_URL }}
         run: npm run agent:run
 
       - name: Commit updated run log

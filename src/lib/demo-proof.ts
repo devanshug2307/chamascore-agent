@@ -1,4 +1,6 @@
-const BLOCKSCOUT = "https://celo-sepolia.blockscout.com";
+import { BLOCKSCOUT_BASE, IS_MAINNET } from "@/lib/agent-metadata";
+
+const BLOCKSCOUT = BLOCKSCOUT_BASE;
 
 export const demoContractAddress =
   process.env.NEXT_PUBLIC_CHAMASCORE_CONTRACT ??
@@ -10,7 +12,11 @@ export const demoCircleId = Number(
 
 export const demoWalletAddress = "0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603";
 
-export const demoUsdcAddress = "0x01C5C0122039549AD1493B8220cABEdD739BC44E";
+export const demoUsdcAddress =
+  process.env.NEXT_PUBLIC_CHAMASCORE_USDC ??
+  (IS_MAINNET
+    ? "0xcebA9300f2b948710d2653dD7B07f33A8B32118C"
+    : "0x01C5C0122039549AD1493B8220cABEdD739BC44E");
 
 export const demoAgentMetadataUrl =
   process.env.NEXT_PUBLIC_AGENT_METADATA_URL ??

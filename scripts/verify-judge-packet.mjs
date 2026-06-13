@@ -1,5 +1,13 @@
 const baseUrl = process.env.CHAMASCORE_BASE_URL || "http://localhost:3000";
 
+// Expected network + agent id flip to mainnet via the same env the app uses.
+// Defaults keep the testnet checks intact.
+const EXPECTED_NETWORK =
+  process.env.CHAMASCORE_NETWORK === "mainnet" ? "celo" : "celo-sepolia";
+const EXPECTED_AGENT_ID = Number(
+  process.env.NEXT_PUBLIC_ERC8004_AGENT_ID ?? "338",
+);
+
 async function readJson(path) {
   const response = await fetch(`${baseUrl}${path}`);
   if (!response.ok) {
@@ -43,11 +51,14 @@ async function main() {
     ),
     check(
       metadata.registrations?.some(
-        (registration) => Number(registration.agentId) === 338,
+        (registration) => Number(registration.agentId) === EXPECTED_AGENT_ID,
       ),
-      "agent metadata includes ERC-8004 registration (agentId 338)",
+      `agent metadata includes ERC-8004 registration (agentId ${EXPECTED_AGENT_ID})`,
     ),
-    check(report.network === "celo-sepolia", "report network is Celo Sepolia"),
+    check(
+      report.network === EXPECTED_NETWORK,
+      `report network is ${EXPECTED_NETWORK}`,
+    ),
     check(report.riskFlags?.length > 0, "report includes risk flags"),
     check(
       report.recommendedTransactions?.some(

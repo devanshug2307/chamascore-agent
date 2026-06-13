@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { getAddress } from "viem";
+import { CHAIN_ID, NETWORK_LABEL } from "@/lib/agent-metadata";
 import {
   encodeApprove,
   encodeContribution,
   encodeCreateUsdcCircle,
   getAgentMetadataUrl,
   encodeRiskFlag,
-  supportedChains,
 } from "@/lib/celo";
 
 import {
@@ -20,11 +20,11 @@ const demoOrganizer = getAddress("0xE6df1c1EcC9cEe37B09172366B92a7eDc026b603");
 const riskTarget = getAddress("0x19A12f8b9e8eF0A1443B86F842cC3901d9C09a91");
 
 export async function GET() {
-  const approval = encodeApprove("USDC", supportedChains.sepolia.id, contractAddress, 0.5);
+  const approval = encodeApprove("USDC", CHAIN_ID, contractAddress, 0.5);
 
   return NextResponse.json({
     generatedAt: new Date().toISOString(),
-    network: "celo-sepolia",
+    network: NETWORK_LABEL,
     contractAddress,
     circleId: Number(circleId),
     publicMetadataUrl: getAgentMetadataUrl(),
@@ -34,7 +34,7 @@ export async function GET() {
         label: "Create fresh public-metadata circle",
         transaction: {
           to: contractAddress,
-          data: encodeCreateUsdcCircle(supportedChains.sepolia.id, demoOrganizer),
+          data: encodeCreateUsdcCircle(CHAIN_ID, demoOrganizer),
         },
         reason:
           "Create a fresh circle whose metadataURI points to the public Vercel /agent.json URL.",

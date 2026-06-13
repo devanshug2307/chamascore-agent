@@ -16,6 +16,17 @@ export const CHAIN_ID = Number(
   process.env.NEXT_PUBLIC_CHAIN_ID ?? "11142220",
 );
 
+// Celo mainnet chain id is 42220; Celo Sepolia is 11142220.
+export const IS_MAINNET = CHAIN_ID === 42220;
+
+// Single source of truth for the human-readable network label and explorer
+// base used across agent.json, the REST/MCP endpoints, and the dashboard proof
+// links. Flipping NEXT_PUBLIC_CHAIN_ID=42220 switches every surface to mainnet.
+export const NETWORK_LABEL = IS_MAINNET ? "celo" : "celo-sepolia";
+export const BLOCKSCOUT_BASE = IS_MAINNET
+  ? "https://celo.blockscout.com"
+  : "https://celo-sepolia.blockscout.com";
+
 export const CHAIN_CAIP2 = `eip155:${CHAIN_ID}`;
 
 export const ERC8004_IDENTITY_REGISTRY =
