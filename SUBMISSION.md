@@ -19,7 +19,7 @@ Autonomous trust agent for savings circles: payouts, risk flags, and portable ER
 Track IDs:
 
 ```json
-["best-agent", "most-activity"]
+["best-agent"]
 ```
 
 Bounty IDs:
@@ -55,7 +55,8 @@ https://chamascore-agent.vercel.app
 Video URL:
 
 ```text
-TODO: add demo video URL
+N/A — no demo video. Live interactive demo at https://chamascore-agent.vercel.app and full
+onchain proof (clickable Blockscout txs) in the app's "Autonomous agent runs" panel.
 ```
 
 Twitter/X registration post link:

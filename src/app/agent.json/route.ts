@@ -132,7 +132,7 @@ export async function GET() {
       },
       submission: {
         hackathon: "celo-onchain-agents",
-        tracks: ["best-agent", "most-activity"],
+        tracks: ["best-agent"],
       },
     },
     {

@@ -94,7 +94,7 @@ For the GitHub Actions cron, set repo secrets `CHAMASCORE_PRIVATE_KEY` (and opti
 
 ## Hackathon Fit
 
-- Hackathon: `celo-onchain-agents` — tracks `best-agent`, `most-activity`
+- Hackathon: `celo-onchain-agents` — track `best-agent`
 - Network: Celo Sepolia (USDC)
 - Judging signals: Celo real-world payments alignment, consistent autonomous onchain activity, genuine utility for existing savings groups, ERC-8004 + Self verification
 - Submission docs: [`SUBMISSION.md`](SUBMISSION.md), [`SOCIAL_POST.md`](SOCIAL_POST.md), [`JUDGE_PACKET.md`](JUDGE_PACKET.md)
