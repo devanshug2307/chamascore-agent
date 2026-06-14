@@ -62,7 +62,7 @@ onchain proof (clickable Blockscout txs) in the app's "Autonomous agent runs" pa
 Twitter/X registration post link:
 
 ```text
-TODO: add public x.com/twitter.com post URL
+https://x.com/devanshugoyal23/status/2066227659806572761
 ```
 
 ERC-8004 / 8004scan link:
@@ -139,7 +139,7 @@ Registered as ERC-8004 agent #338 with reputation earned from independent member
 - [x] A2A + MCP endpoints implemented.
 - [x] Pushed to GitHub and Vercel redeployed (env vars updated).
 - [x] Live endpoints verified on production (14/14 judge checks pass).
-- [ ] X/Twitter registration post is public and linked.
+- [x] X/Twitter registration post is public and linked. (https://x.com/devanshugoyal23/status/2066227659806572761)
 - [ ] Telegram group joined: `https://t.me/realworldagentshackathon`
 - [ ] Submission is reviewed once before publishing.
 
